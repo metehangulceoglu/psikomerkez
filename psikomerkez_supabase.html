@@ -1,0 +1,2657 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PsikoMerkez — Psikoteknik Yönetim Sistemi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&display=swap"/>
+<style>
+/* ── RESET ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#F7F5F0;color:#1A1A15;min-height:100vh}
+
+/* ── TOKENS ── */
+:root{
+  --bg:#F7F5F0;--white:#FFFFFF;--sur:#EFEDE7;--sur2:#E6E3DB;
+  --brd:#DDDAD1;--brd2:#C9C5BA;
+  --txt:#1A1A15;--txt2:#65645C;--txt3:#A09F96;
+  --teal:#0C6E72;--teal-l:#E2F2F3;--teal-d:#085558;
+  --red:#B83429;--red-l:#FDF0EE;
+  --amb:#9A5705;--amb-l:#FEF3C7;
+  --grn:#15593D;--grn-l:#D1FAE5;
+  --blu:#1A3899;--blu-l:#DBEAFE;
+  --pur:#52189E;--pur-l:#EDE9FE;
+  --sh:0 1px 3px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.04);
+  --sh-md:0 4px 20px rgba(0,0,0,.08),0 16px 48px rgba(0,0,0,.06);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══════════════════════════════════════════
+   LANDING PAGE
+══════════════════════════════════════════ */
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:66px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,245,240,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--brd)}
+.nav-logo{display:flex;align-items:baseline;gap:8px}
+.nav-brand{font-family:'Instrument Serif',serif;font-size:20px;color:var(--teal)}
+.nav-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);padding:2px 6px;border:1px solid var(--brd);border-radius:20px}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.btn-nav-ghost{padding:7px 16px;border:1.5px solid var(--brd2);border-radius:8px;background:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s}
+.btn-nav-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn-nav-p{padding:8px 18px;border:1.5px solid var(--teal);border-radius:8px;background:var(--teal);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#fff;cursor:pointer;transition:all .15s}
+.btn-nav-p:hover{background:var(--teal-d)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 5% 80px;text-align:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(12,110,114,.07) 0%,transparent 70%);pointer-events:none}
+.hero-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--teal);border-radius:20px;background:var(--teal-l);color:var(--teal);font-size:12px;font-weight:600;margin-bottom:28px;animation:fadeUp .6s ease}
+.hero-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease infinite}
+.hero-title{font-family:'Instrument Serif',serif;font-size:clamp(40px,6vw,76px);line-height:1.1;margin-bottom:22px;animation:fadeUp .7s .1s ease both}
+.hero-title em{font-style:italic;color:var(--teal)}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--txt2);max-width:540px;line-height:1.65;margin-bottom:40px;animation:fadeUp .7s .2s ease both;font-weight:300}
+.hero-acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .3s ease both}
+.btn-hero-p{padding:14px 30px;background:var(--teal);border:2px solid var(--teal);color:#fff;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-hero-p:hover{background:var(--teal-d);transform:translateY(-1px);box-shadow:0 8px 24px rgba(12,110,114,.3)}
+.btn-hero-ghost{padding:14px 30px;background:none;border:2px solid var(--brd2);color:var(--txt2);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-hero-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.hero-note{margin-top:14px;font-size:12px;color:var(--txt3);animation:fadeUp .7s .4s ease both}
+
+/* TICKER */
+.ticker{background:var(--teal);color:#fff;padding:10px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-flex;gap:0;animation:marquee 30s linear infinite}
+.ticker-item{padding:0 32px;font-size:12px;font-weight:600;letter-spacing:.5px;display:inline-flex;align-items:center;gap:10px}
+.ticker-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.5)}
+
+/* SECTION */
+.section{padding:90px 5%}
+.section-chip{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--teal);margin-bottom:14px}
+.section-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,4vw,44px);line-height:1.2;margin-bottom:14px}
+.section-sub{font-size:16px;color:var(--txt2);font-weight:300;line-height:1.6;max-width:480px}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px}
+.feat-card{background:var(--white);border:1px solid var(--brd);border-radius:16px;padding:26px;transition:all .2s}
+.feat-card:hover{box-shadow:var(--sh-md);transform:translateY(-3px);border-color:var(--teal)}
+.feat-ico{width:44px;height:44px;border-radius:12px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+.feat-title{font-size:15px;font-weight:700;margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--txt2);line-height:1.6;font-weight:300}
+
+/* PREVIEW MOCKUP */
+.preview-wrap{max-width:900px;margin:52px auto 0;position:relative}
+.preview-frame{background:var(--white);border:1px solid var(--brd);border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.12)}
+.preview-topbar{background:var(--sur);border-bottom:1px solid var(--brd);padding:12px 16px;display:flex;align-items:center;gap:8px}
+.preview-dot{width:10px;height:10px;border-radius:50%}
+.preview-url{flex:1;background:var(--white);border:1px solid var(--brd);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--txt3);margin:0 12px;text-align:center}
+.preview-content{padding:16px;background:var(--bg);min-height:260px}
+.mock-sidebar{width:160px;background:var(--white);border:1px solid var(--brd);border-radius:10px;padding:10px;float:left;margin-right:12px}
+.mock-nav-item{padding:6px 8px;border-radius:6px;font-size:10px;font-weight:600;color:var(--txt2);margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.mock-nav-item.on{background:var(--teal-l);color:var(--teal)}
+.mock-main{margin-left:172px}
+.mock-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px}
+.mock-stat{background:var(--white);border:1px solid var(--brd);border-radius:8px;padding:10px 12px}
+.mock-stat-val{font-size:16px;font-weight:700;font-family:'Instrument Serif',serif}
+.mock-stat-lbl{font-size:9px;color:var(--txt3);margin-top:2px}
+.mock-card{background:var(--white);border:1px solid var(--brd);border-radius:8px;padding:11px}
+.mock-card-head{font-size:10px;font-weight:700;border-bottom:1px solid var(--brd);padding-bottom:7px;margin-bottom:7px;color:var(--txt2)}
+.mock-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--sur);font-size:9.5px}
+.mock-badge{padding:2px 6px;border-radius:10px;font-size:8px;font-weight:700}
+.mock-grn{background:var(--grn-l);color:var(--grn)}
+.mock-red{background:var(--red-l);color:var(--red)}
+.mock-amb{background:var(--amb-l);color:var(--amb)}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px;max-width:860px;margin-left:auto;margin-right:auto}
+.price-card{background:var(--white);border:1.5px solid var(--brd);border-radius:20px;padding:32px 28px;position:relative;transition:all .2s}
+.price-card.featured{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-l)}
+.price-chip{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;white-space:nowrap}
+.price-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);margin-bottom:12px}
+.price-val{font-family:'Instrument Serif',serif;font-size:44px;line-height:1;margin-bottom:4px;color:var(--txt)}
+.price-period{font-size:12px;color:var(--txt3);margin-bottom:22px}
+.price-features{list-style:none;margin-bottom:26px}
+.price-features li{font-size:13px;color:var(--txt2);padding:5px 0;display:flex;gap:8px;font-weight:300}
+.price-features li::before{content:"✓";color:var(--teal);font-weight:700;flex-shrink:0}
+.btn-price{width:100%;padding:11px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-price-outline{background:none;border:1.5px solid var(--brd2);color:var(--txt2)}
+.btn-price-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-price-filled{background:var(--teal);border:1.5px solid var(--teal);color:#fff}
+.btn-price-filled:hover{background:var(--teal-d)}
+
+/* STATS BAND */
+.stats-band{background:var(--teal);padding:64px 5%;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.stat-band-val{font-family:'Instrument Serif',serif;font-size:42px;color:#fff;line-height:1}
+.stat-band-lbl{font-size:12px;color:rgba(255,255,255,.65);margin-top:6px;font-weight:500;text-transform:uppercase;letter-spacing:1px}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.testi-card{background:var(--white);border:1px solid var(--brd);border-radius:16px;padding:26px}
+.testi-stars{color:var(--amb);font-size:13px;margin-bottom:12px;letter-spacing:2px}
+.testi-quote{font-size:14px;color:var(--txt);line-height:1.65;margin-bottom:18px;font-style:italic;font-weight:300}
+.testi-author{font-size:12px;font-weight:700;color:var(--txt2)}
+.testi-role{font-size:11px;color:var(--txt3)}
+
+/* FAQ */
+.faq-list{max-width:700px;margin:40px auto 0}
+.faq-item{border-bottom:1px solid var(--brd)}
+.faq-q{padding:18px 0;font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q:hover{color:var(--teal)}
+.faq-ico{font-size:18px;color:var(--txt3);transition:transform .2s}
+.faq-ico.open{transform:rotate(45deg)}
+.faq-a{padding:0 0 18px;font-size:14px;color:var(--txt2);line-height:1.7;font-weight:300}
+
+/* CTA BAND */
+.cta-band{background:var(--txt);padding:80px 5%;text-align:center}
+.cta-band-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,4vw,48px);color:#fff;margin-bottom:14px}
+.cta-band-sub{font-size:16px;color:rgba(255,255,255,.6);margin-bottom:36px;font-weight:300}
+.btn-cta-white{padding:16px 36px;background:#fff;border:2px solid #fff;color:var(--txt);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-cta-white:hover{background:transparent;color:#fff}
+
+/* FOOTER */
+.footer{background:var(--txt);border-top:1px solid rgba(255,255,255,.08);padding:40px 5%;display:flex;justify-content:space-between;align-items:center}
+.footer-brand{font-family:'Instrument Serif',serif;font-size:18px;color:#fff}
+.footer-links{display:flex;gap:20px}
+.footer-link{font-size:12px;color:rgba(255,255,255,.45);cursor:pointer;transition:color .15s}
+.footer-link:hover{color:rgba(255,255,255,.8)}
+
+/* ══════════════════════════════════════════
+   AUTH PAGE
+══════════════════════════════════════════ */
+.auth-wrap{min-height:100vh;display:flex}
+.auth-left{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px}
+.auth-right{width:480px;background:var(--teal);display:flex;flex-direction:column;padding:52px 44px;position:relative;overflow:hidden}
+.auth-right-bg{position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.08),transparent 60%)}
+.auth-right-title{font-family:'Instrument Serif',serif;font-size:32px;color:#fff;margin-bottom:12px;position:relative;z-index:1}
+.auth-right-sub{font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:40px;font-weight:300;position:relative;z-index:1}
+.auth-feat{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px;position:relative;z-index:1}
+.auth-feat-ico{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.auth-feat-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.auth-feat-desc{font-size:12px;color:rgba(255,255,255,.6);font-weight:300}
+.auth-box{background:var(--white);border:1px solid var(--brd);border-radius:20px;padding:38px;width:100%;max-width:420px;box-shadow:var(--sh-md);animation:fadeUp .3s ease}
+.auth-logo{font-family:'Instrument Serif',serif;font-size:24px;color:var(--teal);margin-bottom:4px}
+.auth-tagline{font-size:12px;color:var(--txt3);margin-bottom:28px}
+.auth-err{background:var(--red-l);border:1px solid #FECACA;color:var(--red);padding:9px 13px;border-radius:8px;font-size:13px;margin-bottom:14px}
+.auth-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--txt3);cursor:pointer;margin-bottom:28px;transition:color .15s}
+.auth-back:hover{color:var(--teal)}
+
+/* ══════════════════════════════════════════
+   PANEL (DASHBOARD APP)
+══════════════════════════════════════════ */
+
+/* PANEL SHARED */
+.app{display:flex;min-height:100vh}
+.sb{width:228px;background:var(--white);border-right:1px solid var(--brd);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:20}
+.sb-logo{padding:18px 16px 13px;border-bottom:1px solid var(--brd)}
+.sb-brand{font-family:'Instrument Serif',serif;font-size:18px;color:var(--teal)}
+.sb-tag{font-size:10px;color:var(--txt3);margin-top:2px}
+.sb-nav{flex:1;padding:8px;overflow-y:auto}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;color:var(--txt2);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;margin-bottom:1px}
+.ni:hover{background:var(--sur);color:var(--txt)}
+.ni.on{background:var(--teal-l);color:var(--teal);font-weight:700}
+.ni-ico{font-size:14px;width:20px;text-align:center;flex-shrink:0}
+.ni-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:20px;padding:1px 7px;font-size:9.5px;font-weight:800}
+.ni-badge.warn{background:var(--amb)}
+.sb-foot{padding:12px 16px;border-top:1px solid var(--brd);font-size:11px;color:var(--txt3)}
+.sb-logout{display:flex;align-items:center;gap:6px;margin-top:8px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--txt3);transition:all .15s}
+.sb-logout:hover{background:var(--red-l);color:var(--red)}
+.main{margin-left:228px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--white);border-bottom:1px solid var(--brd);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.page-ttl{font-family:'Instrument Serif',serif;font-size:17px}
+.content{padding:20px 24px;animation:slideUp .2s ease}
+
+/* PANEL COMPONENTS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{background:var(--white);border:1px solid var(--brd);border-radius:12px;padding:15px 17px;box-shadow:var(--sh)}
+.stat-ico{font-size:18px;margin-bottom:6px}
+.stat-val{font-family:'Instrument Serif',serif;font-size:24px;font-weight:400;line-height:1}
+.stat-lbl{font-size:11px;color:var(--txt2);margin-top:3px;font-weight:600}
+.stat-note{font-size:10px;margin-top:2px;font-weight:700}
+.card{background:var(--white);border:1px solid var(--brd);border-radius:12px;box-shadow:var(--sh);overflow:hidden}
+.card-head{padding:12px 16px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.card-ttl{font-size:13px;font-weight:700}
+.card-sub{font-size:11px;color:var(--txt2);margin-top:1px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:7px 13px;font-size:9px;text-transform:uppercase;letter-spacing:1.1px;color:var(--txt3);font-weight:700;background:var(--sur);border-bottom:1px solid var(--brd)}
+td{padding:10px 13px;font-size:12.5px;border-bottom:1px solid var(--brd);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.row:hover td{background:var(--sur);cursor:pointer}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.b-teal{background:var(--teal-l);color:var(--teal)}
+.b-red{background:var(--red-l);color:var(--red)}
+.b-amb{background:var(--amb-l);color:var(--amb)}
+.b-grn{background:var(--grn-l);color:var(--grn)}
+.b-blu{background:var(--blu-l);color:var(--blu)}
+.b-pur{background:var(--pur-l);color:var(--pur)}
+.b-gray{background:#F3F4F6;color:#6B7280}
+.btn{padding:7px 13px;border-radius:8px;border:1.5px solid var(--brd2);background:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;color:var(--txt2);display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.btn:hover{border-color:var(--teal);color:var(--teal)}
+.btn-p{background:var(--teal);border-color:var(--teal);color:#fff}.btn-p:hover{background:var(--teal-d);color:#fff}
+.btn-sm{padding:4px 9px;font-size:11px;border-radius:6px}
+.btn-del{border-color:#FCA5A5;color:var(--red)}.btn-del:hover{background:var(--red-l);border-color:var(--red)}
+.btn-wa{background:#25D366;border-color:#25D366;color:#fff}.btn-wa:hover{background:#1DB954;color:#fff}
+.btn-ghost{background:none;border-color:transparent;color:var(--txt2)}.btn-ghost:hover{background:var(--sur);border-color:var(--brd)}
+.btn-excel{background:var(--grn);border-color:var(--grn);color:#fff}.btn-excel:hover{background:#145235;color:#fff}
+.btn-undo{background:var(--amb-l);border-color:#FDE68A;color:var(--amb)}.btn-undo:hover{background:#FEF08A}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg.full{grid-column:1/-1}
+.fl{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.7px}
+.fi{padding:8px 11px;border:1.5px solid var(--brd2);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--txt);background:var(--white);outline:none;transition:border-color .2s;width:100%}
+.fi:focus{border-color:var(--teal)}
+.fi::placeholder{color:var(--txt3)}
+.fi-sel{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.fi option{background:#fff}
+.fi-ta{resize:vertical;min-height:60px}
+.overlay{position:fixed;inset:0;background:rgba(26,26,20,.48);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .15s ease}
+.modal{background:var(--white);border-radius:18px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-md);animation:slideUp .2s ease}
+.modal-head{padding:16px 20px 12px;border-bottom:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--white);z-index:5}
+.modal-ttl{font-family:'Instrument Serif',serif;font-size:17px}
+.modal-x{background:none;border:none;font-size:20px;color:var(--txt3);cursor:pointer;padding:2px 5px}
+.modal-x:hover{color:var(--txt)}
+.modal-body{padding:16px 20px;display:flex;flex-direction:column;gap:11px}
+.modal-foot{padding:12px 20px;border-top:1px solid var(--brd);display:flex;gap:7px;justify-content:flex-end;position:sticky;bottom:0;background:var(--white)}
+.alert{padding:10px 13px;border-radius:9px;font-size:12.5px;display:flex;align-items:flex-start;gap:8px;margin-bottom:11px;line-height:1.5}
+.al-red{background:var(--red-l);border:1px solid #FECACA;color:var(--red)}
+.al-amb{background:var(--amb-l);border:1px solid #FDE68A;color:var(--amb)}
+.al-blu{background:var(--blu-l);border:1px solid #BFDBFE;color:var(--blu)}
+.al-grn{background:var(--grn-l);border:1px solid #A7F3D0;color:var(--grn)}
+.ar{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--brd);align-items:flex-start}
+.ar:last-child{border-bottom:none}
+.ar-time{width:40px;flex-shrink:0;text-align:center}
+.ar-h{font-family:'Instrument Serif',serif;font-size:15px;line-height:1}
+.ar-m{font-size:10px;color:var(--txt3)}
+.ar-bar{width:3px;border-radius:3px;align-self:stretch;flex-shrink:0;min-height:32px}
+.ar-info{flex:1}
+.ar-name{font-size:13px;font-weight:700}
+.ar-meta{font-size:11px;color:var(--txt2);margin-top:2px}
+.ar-acts{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--brd)}
+.cal-ttl{font-family:'Instrument Serif',serif;font-size:15px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--brd)}
+.cal-dh{background:var(--sur);padding:7px 4px;text-align:center;font-size:9.5px;font-weight:700;color:var(--txt3);text-transform:uppercase}
+.cal-day{background:var(--white);min-height:72px;padding:5px;transition:background .1s;position:relative}
+.cal-day:hover{background:var(--sur);cursor:pointer}
+.cal-day.cal-today{background:var(--teal-l)}
+.cal-day.cal-other{background:var(--sur);opacity:.5}
+.cal-dn{font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:3px}
+.cal-today .cal-dn{color:var(--teal)}
+.cal-dot{font-size:10px;padding:1px 4px;border-radius:4px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.cal-add-hint{position:absolute;bottom:4px;right:4px;font-size:9px;color:var(--txt3);opacity:0}
+.cal-day:hover .cal-add-hint{opacity:1}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.di{background:var(--sur);border-radius:8px;padding:9px 12px}
+.di-l{font-size:9px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.di-v{font-size:13px;font-weight:600}
+.rr{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;margin-bottom:6px;border:1px solid}
+.rr-exp{background:var(--red-l);border-color:#FECACA}
+.rr-urg{background:var(--amb-l);border-color:#FDE68A}
+.rr-ok{background:var(--blu-l);border-color:#BFDBFE}
+.tabs{display:flex;gap:2px;background:var(--sur2);padding:3px;border-radius:9px;width:fit-content;margin-bottom:14px}
+.tab{padding:5px 12px;border-radius:7px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;background:none;color:var(--txt2);transition:all .15s;display:flex;align-items:center;gap:4px}
+.tab.on{background:var(--white);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.tc{background:var(--teal);color:#fff;border-radius:10px;padding:1px 6px;font-size:9.5px;font-weight:800}
+.sw{position:relative}
+.si{padding:7px 11px 7px 27px;border:1.5px solid var(--brd2);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--txt);background:var(--white);outline:none;width:200px;transition:border-color .2s}
+.si:focus{border-color:var(--teal)}
+.s-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--txt3);font-size:12px;pointer-events:none}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.ph h2{font-family:'Instrument Serif',serif;font-size:20px}
+.ph p{font-size:12px;color:var(--txt2);margin-top:2px}
+.ph-acts{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.wa-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;background:var(--sur);margin-bottom:5px}
+.wa-sent{background:var(--grn-l);opacity:.7}
+hr{border:none;border-top:1px solid var(--brd);margin:11px 0}
+.empty{text-align:center;padding:36px 20px;color:var(--txt3)}
+.empty-ico{font-size:28px;margin-bottom:7px}
+.empty-txt{font-size:13px}
+.status-menu{position:absolute;right:0;top:100%;background:var(--white);border:1.5px solid var(--brd2);border-radius:10px;box-shadow:var(--sh-md);z-index:200;min-width:185px;overflow:hidden;animation:slideUp .15s ease}
+.status-opt{display:flex;align-items:center;gap:8px;padding:9px 13px;font-size:12.5px;font-weight:600;cursor:pointer;transition:background .1s}
+.status-opt:hover{background:var(--sur)}
+.status-opt.active{background:var(--teal-l);color:var(--teal)}
+.sch-slot{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;border:1.5px solid var(--brd);transition:all .15s}
+.sch-slot.booked{background:var(--teal-l);border-color:var(--teal)}
+.sch-slot.done{background:#F3F4F6;border-color:#E5E7EB;opacity:.7}
+.sch-slot.gelmedi{background:var(--red-l);border-color:#FECACA;opacity:.8}
+.sch-slot.empty{cursor:pointer}.sch-slot.empty:hover{border-color:var(--teal);background:var(--teal-l)}
+.sch-time{font-family:'Instrument Serif',serif;font-size:13px;width:44px;flex-shrink:0;color:var(--txt2)}
+.sch-content{flex:1;font-size:12.5px}
+.sch-name{font-weight:700}
+.sch-meta{font-size:11px;color:var(--txt2);margin-top:1px}
+.sch-add{font-size:11px;color:var(--txt3);font-style:italic}
+.chart-wrap{padding:14px 16px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-lbl{font-size:11.5px;font-weight:600;width:130px;flex-shrink:0;text-align:right;color:var(--txt2)}
+.bar-track{flex:1;background:var(--sur2);border-radius:20px;height:20px;overflow:hidden}
+.bar-fill{height:100%;border-radius:20px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff;transition:width .5s ease}
+.bar-val{font-size:11px;font-weight:700;color:var(--txt2);width:40px;text-align:right}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);display:flex;gap:8px;max-width:340px;animation:slideUp .2s ease}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .features-grid,.pricing-grid,.testi-grid{grid-template-columns:1fr 1fr}
+  .stats-band{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .features-grid,.pricing-grid,.testi-grid{grid-template-columns:1fr}
+  .auth-right{display:none}
+  .stats-band{grid-template-columns:1fr 1fr}
+  .hero-acts{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<script type="text/babel">
+const {useState,useEffect,useMemo,useRef,useCallback}=React;
+
+// ── SUPABASE ──
+// ⚠ SUPA_KEY'i Supabase Dashboard → Project Settings → API → anon public key ile güncelle
+const SUPA_URL="https://xakzpguoevfydshecqnp.supabase.co";
+const SUPA_KEY="sb_publishable_TdogvmSFbHfIsN_Uw3Y3FA_Jov5eQsV"; // ← BUNU GÜNCELLE
+const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+
+// ── LOCAL SESSION (sadece giriş bilgisi) ──
+const LS={
+  get:(k)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
+  del:(k)=>{try{localStorage.removeItem(k);}catch{}},
+};
+
+// ── DEMO ACCOUNTS ──
+const DEMO_ACCOUNTS=[
+  {email:"demo@psikomerkez.com",password:"psiko2024",tenantId:"demo",centerName:"Demo Psikoteknik Merkezi",psychologist:"Uzm. Psk. Demo Kullanıcı"},
+  {email:"ankara@psikomerkez.com",password:"ankara123",tenantId:"ankara",centerName:"Ankara Sürücü Psikoloji",psychologist:"Uzm. Psk. Ayşe Kaya"},
+];
+
+// ── SUPABASE VERİ FONKSİYONLARI ──
+// Clients → camelCase ↔ snake_case dönüşümü
+const toClient=r=>({
+  id:r.id,name:r.name,surname:r.surname,phone:r.phone,
+  companyId:r.company_id,status:r.status,testType:r.test_type,
+  testDate:r.test_date,renewalDate:r.renewal_date,
+  notes:r.notes,howFound:r.how_found,createdAt:r.created_at,
+});
+const fromClient=(c,tid)=>({
+  id:c.id,tenant_id:tid,name:c.name,surname:c.surname,phone:c.phone,
+  company_id:c.companyId||null,status:c.status,test_type:c.testType||null,
+  test_date:c.testDate||null,renewal_date:c.renewalDate||null,
+  notes:c.notes||"",how_found:c.howFound||"",created_at:c.createdAt||new Date().toISOString(),
+});
+
+const toAppt=r=>({
+  id:r.id,clientId:r.client_id,date:r.date,testType:r.test_type,
+  price:r.price,paymentMethod:r.payment_method,paymentStatus:r.payment_status,
+  companyId:r.company_id,notes:r.notes,status:r.status,reminded:r.reminded,
+});
+const fromAppt=(a,tid)=>({
+  id:a.id,tenant_id:tid,client_id:a.clientId,date:a.date,
+  test_type:a.testType,price:a.price,payment_method:a.paymentMethod,
+  payment_status:a.paymentStatus,company_id:a.companyId||null,
+  notes:a.notes||"",status:a.status,reminded:a.reminded||false,
+});
+
+const toCo=r=>({id:r.id,name:r.name,contact:r.contact,phone:r.phone,notes:r.notes});
+const fromCo=(c,tid)=>({id:c.id,tenant_id:tid,name:c.name,contact:c.contact||"",phone:c.phone||"",notes:c.notes||""});
+
+// Supabase'den yükle
+async function sbLoad(tid){
+  const[{data:cl},{data:ap},{data:co},{data:st},{data:tr}]=await Promise.all([
+    sb.from("clients").select("*").eq("tenant_id",tid).is("deleted_at",null),
+    sb.from("appointments").select("*").eq("tenant_id",tid),
+    sb.from("companies").select("*").eq("tenant_id",tid),
+    sb.from("settings").select("*").eq("tenant_id",tid).single(),
+    sb.from("trash").select("*").eq("tenant_id",tid),
+  ]);
+  return{
+    clients:(cl||[]).map(toClient),
+    appointments:(ap||[]).map(toAppt),
+    companies:(co||[]).map(toCo),
+    settings:st?.data||null,
+    trash:(tr||[]).map(r=>r.data),
+  };
+}
+
+// Upsert tek kayıt
+async function sbSaveClients(clients,tid){
+  if(!clients.length)return;
+  await sb.from("clients").upsert(clients.map(c=>fromClient(c,tid)),{onConflict:"id"});
+}
+async function sbSaveAppts(appts,tid){
+  if(!appts.length)return;
+  await sb.from("appointments").upsert(appts.map(a=>fromAppt(a,tid)),{onConflict:"id"});
+}
+async function sbSaveCos(cos,tid){
+  if(!cos.length)return;
+  await sb.from("companies").upsert(cos.map(c=>fromCo(c,tid)),{onConflict:"id"});
+}
+async function sbSaveSettings(cfg,tid){
+  await sb.from("settings").upsert({tenant_id:tid,data:cfg},{onConflict:"tenant_id"});
+}
+async function sbDeleteClient(id,tid){
+  // Tamamen sil (soft delete yerine hard delete)
+  await sb.from("clients").delete().eq("id",id).eq("tenant_id",tid);
+}
+async function sbDeleteAppt(id,tid){
+  await sb.from("appointments").delete().eq("id",id).eq("tenant_id",tid);
+}
+async function sbDeleteCo(id,tid){
+  await sb.from("companies").delete().eq("id",id).eq("tenant_id",tid);
+}
+async function sbSaveTrash(trash,tid){
+  for(const item of trash){
+    await sb.from("trash").upsert({id:item.id,tenant_id:tid,data:item,deleted_at:item.deletedAt||new Date().toISOString()},{onConflict:"id"});
+  }
+}
+async function sbRestoreTrash(id,tid){
+  await sb.from("trash").delete().eq("id",id).eq("tenant_id",tid);
+}
+async function sbClearTrash(tid){
+  await sb.from("trash").delete().eq("tenant_id",tid);
+}
+
+// ── DATA ──
+const CLIENT_STATUSES=[
+  {key:"bekliyor",label:"Randevu Bekliyor",badge:"b-gray",ico:"📋"},
+  {key:"randevulu",label:"Randevu Verildi",badge:"b-blu",ico:"📅"},
+  {key:"teste_girdi",label:"Teste Girdi",badge:"b-teal",ico:"✅"},
+  {key:"iptal",label:"İptal Etti",badge:"b-amb",ico:"❌"},
+  {key:"potansiyel",label:"Potansiyel",badge:"b-pur",ico:"💡"},
+  {key:"gelmedi",label:"Gelmeyenler",badge:"b-red",ico:"🔴"},
+];
+
+const DEFAULT_TEST_TYPES=[
+  {id:"src",label:"SRC / Ticari Taşıt",desc:"Kamyon, otobüs, taksi, servis vb.",renewalYears:5,price:500},
+  {id:"stajyer",label:"Stajyer Ehliyet İptali",desc:"Staj döneminde ehliyeti iptal edilenler",renewalYears:5,price:400},
+  {id:"genel",label:"Genel Ehliyet Alınması",desc:"Alkol, drift, ceza puanı vb.",renewalYears:5,price:400},
+];
+
+const DEFAULT_SETTINGS={
+  centerName:"PsikoMerkez",psychologist:"Uzm. Psk. Ad Soyad",
+  address:"Adres henüz girilmedi",phone:"0312 000 00 00",
+  mapsUrl:"",
+  iban:"",
+  ibanBank:"",
+  ibanName:"",
+  reviewUrl:"",
+  workStart:"09:00",workEnd:"20:00",slotMinutes:60,deviceCount:1,
+  testTypes:DEFAULT_TEST_TYPES,
+  reminderTemplate:"Sayın {isim}, {gun} saat {saat} olmak üzere psikoteknik randevunuz bulunmaktadır. Bu mesaj hatırlatmak amacıyla gönderilmiştir. Olası iptal veya erteleme durumunda lütfen tarafımıza bilgi veriniz. {telefon}{konum}",
+  renewalTemplate:"Sayın {isim}, psikoteknik belgeniz {bitis} tarihinde sona erecektir. Belgenizi yenilemek için merkezimizle iletişime geçebilirsiniz. {merkez} - {telefon}",
+};
+
+const HOW_FOUND=["Referans","İnternet","Şirket Aracılığıyla","Sosyal Medya","Tabela / Geçerken","Diğer"];
+const MONTHS_TR=["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+const DAYS_TR=["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
+
+const _now=new Date();
+const dd=(days,h=9,m=0)=>{const x=new Date(_now);x.setDate(x.getDate()+days);x.setHours(h,m,0,0);return x.toISOString();};
+const SAMPLE_CLIENTS=[
+  {id:1,name:"Ahmet",surname:"Yılmaz",phone:"05321112233",companyId:null,status:"teste_girdi",testType:"src",testDate:dd(-10),renewalDate:dd(5*365-10),notes:"",howFound:"Referans",createdAt:dd(-15)},
+  {id:2,name:"Mehmet",surname:"Kaya",phone:"05452223344",companyId:1,status:"teste_girdi",testType:"genel",testDate:dd(-5),renewalDate:dd(5*365-5),notes:"Alkol",howFound:"Şirket Aracılığıyla",createdAt:dd(-8)},
+  {id:3,name:"Fatma",surname:"Demir",phone:"05333334455",companyId:null,status:"randevulu",testType:null,testDate:null,renewalDate:null,notes:"",howFound:"İnternet",createdAt:dd(-1)},
+  {id:4,name:"Ali",surname:"Çelik",phone:"05424445566",companyId:1,status:"teste_girdi",testType:"src",testDate:dd(-4*365-20),renewalDate:dd(345),notes:"",howFound:"Referans",createdAt:dd(-4*365-20)},
+  {id:5,name:"Zeynep",surname:"Arslan",phone:"05555556677",companyId:2,status:"potansiyel",testType:null,testDate:null,renewalDate:null,notes:"İlgili",howFound:"Sosyal Medya",createdAt:dd(-2)},
+  {id:6,name:"Hasan",surname:"Öztürk",phone:"05336667788",companyId:null,status:"bekliyor",testType:null,testDate:null,renewalDate:null,notes:"",howFound:"İnternet",createdAt:dd(-3)},
+  {id:7,name:"Elif",surname:"Şahin",phone:"05447778899",companyId:null,status:"gelmedi",testType:null,testDate:null,renewalDate:null,notes:"",howFound:"Referans",createdAt:dd(-4)},
+  {id:8,name:"Can",surname:"Doğan",phone:"05558889900",companyId:null,status:"iptal",testType:null,testDate:null,renewalDate:null,notes:"Tekrar arayacak",howFound:"İnternet",createdAt:dd(-5)},
+];
+const SAMPLE_COMPANIES=[
+  {id:1,name:"Yıldız Nakliyat",contact:"Hasan Bey",phone:"03121112233",notes:"Düzenli müşteri"},
+  {id:2,name:"Mavi Lojistik A.Ş.",contact:"Selin Hanım",phone:"03122223344",notes:""},
+];
+const SAMPLE_APPTS=[
+  {id:1,clientId:1,date:dd(0,9,0),testType:"src",price:500,paymentMethod:"Nakit",paymentStatus:"ödendi",companyId:null,notes:"",status:"tamamlandı",reminded:false},
+  {id:2,clientId:2,date:dd(0,10,30),testType:"genel",price:400,paymentMethod:"Kart",paymentStatus:"ödendi",companyId:1,notes:"",status:"tamamlandı",reminded:false},
+  {id:3,clientId:3,date:dd(0,14,0),testType:"stajyer",price:400,paymentMethod:"Nakit",paymentStatus:"bekliyor",companyId:null,notes:"",status:"randevu",reminded:false},
+  {id:4,clientId:4,date:dd(1,9,30),testType:"src",price:500,paymentMethod:"Havale",paymentStatus:"bekliyor",companyId:1,notes:"",status:"randevu",reminded:false},
+  {id:5,clientId:5,date:dd(1,11,0),testType:"src",price:500,paymentMethod:"Kart",paymentStatus:"bekliyor",companyId:2,notes:"Toplu",status:"randevu",reminded:false},
+  {id:6,clientId:1,date:dd(-1,9,0),testType:"src",price:500,paymentMethod:"Nakit",paymentStatus:"ödendi",companyId:null,notes:"",status:"tamamlandı",reminded:false},
+];
+
+// ── HELPERS ──
+const genId=()=>Date.now()+Math.floor(Math.random()*9999);
+const fmt=iso=>iso?new Date(iso).toLocaleDateString("tr-TR",{day:"2-digit",month:"short",year:"numeric"}):"—";
+const fmtTime=iso=>iso?new Date(iso).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"—";
+const isoDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const daysUntil=iso=>iso?Math.ceil((new Date(iso)-new Date())/86400000):null;
+const isToday=iso=>iso&&new Date(iso).toDateString()===new Date().toDateString();
+const isTomorrow=iso=>{if(!iso)return false;const t=new Date();t.setDate(t.getDate()+1);return new Date(iso).toDateString()===t.toDateString();};
+const addYears=(iso,y)=>{const x=new Date(iso);x.setFullYear(x.getFullYear()+y);return x.toISOString();};
+const normPhone=p=>p.replace(/\D/g,"").replace(/^0/,"");
+const buildWA=(phone,msg)=>`https://wa.me/90${normPhone(phone)}?text=${encodeURIComponent(msg)}`;
+const buildRemindMsg=(c,a,cfg)=>`Sayın ${c.name} ${c.surname}, yarın saat ${fmtTime(a.date)}'de ${cfg?.centerName||"PsikoMerkez"} randevunuzu hatırlatırız.\nAdres: ${cfg?.address||""}\nBilgi: ${cfg?.phone||""}`;
+const buildRenewMsg=(c,cfg)=>`Sayın ${c.name} ${c.surname}, psikoteknik belgenizin yenileme tarihi yaklaşmaktadır (${fmt(c.renewalDate)}).\nRandevu için: ${cfg?.phone||""}\n${cfg?.centerName||"PsikoMerkez"}`;
+const buildSlots=(cfg)=>{
+  const slots=[];
+  const[sh,sm]=(cfg.workStart||"09:00").split(":").map(Number);
+  const[eh,em]=(cfg.workEnd||"20:00").split(":").map(Number);
+  let cur=sh*60+sm;const end=eh*60+em;const step=cfg.slotMinutes||60;
+  while(cur<end){slots.push(`${String(Math.floor(cur/60)).padStart(2,"0")}:${String(cur%60).padStart(2,"0")}`);cur+=step;}
+  return slots;
+};
+const exportCSV=(data,filename)=>{
+  if(!data.length)return;
+  const h=Object.keys(data[0]);
+  const rows=data.map(r=>h.map(k=>`"${(r[k]??"").toString().replace(/"/g,'""')}"`).join(","));
+  const csv=[h.join(","),...rows].join("\n");
+  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download=filename;a.click();
+  URL.revokeObjectURL(url);
+};
+
+// ── TOAST ──
+function useToast(){
+  const[toasts,setToasts]=useState([]);
+  const show=(msg,type="ok")=>{const id=genId();setToasts(p=>[...p,{id,msg,type}]);setTimeout(()=>setToasts(p=>p.filter(t=>t.id!==id)),3400);};
+  return{toasts,show};
+}
+function Toasts({toasts}){
+  const bg={ok:"#059669",err:"#DC2626",info:"#2563EB",warn:"#D97706"};
+  return(
+    <div className="toast-wrap">
+      {toasts.map(t=>(
+        <div key={t.id} className="toast" style={{background:bg[t.type]||"#333"}}>
+          {t.type==="ok"?"✓":t.type==="err"?"✕":"ℹ"} {t.msg}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── STATUS BADGE ──
+function StatusBadge({status,renewalDate}){
+  if(status==="teste_girdi"){
+    const d=daysUntil(renewalDate);
+    if(d!==null&&d<0)return<span className="badge b-red">Süresi Geçmiş</span>;
+    if(d!==null&&d<=30)return<span className="badge b-red">🚨 Acil — {d}g kaldı</span>;
+    if(d!==null&&d<=90)return<span className="badge b-amb">⚠ Önemli — {d}g kaldı</span>;
+    if(d!==null&&d<=150)return<span className="badge b-amb">🔔 {d}g kaldı</span>;
+    return<span className="badge b-teal">✅ Teste Girdi</span>;
+  }
+  const s=CLIENT_STATUSES.find(x=>x.key===status);
+  return<span className={`badge ${s?.badge||"b-gray"}`}>{s?.ico} {s?.label||status}</span>;
+}
+
+// ── STATUS CHANGER ──
+function StatusChanger({client,onChange}){
+  const[open,setOpen]=useState(false);
+  useEffect(()=>{
+    if(!open)return;
+    const h=()=>setOpen(false);
+    setTimeout(()=>document.addEventListener("click",h),0);
+    return()=>document.removeEventListener("click",h);
+  },[open]);
+  return(
+    <div style={{position:"relative",display:"inline-block"}}>
+      <button className="btn btn-sm btn-ghost" onClick={e=>{e.stopPropagation();setOpen(p=>!p);}}>⚙ Durum</button>
+      {open&&(
+        <div className="status-menu" onClick={e=>e.stopPropagation()}>
+          {CLIENT_STATUSES.map(s=>(
+            <div key={s.key} className={`status-opt ${s.key===client.status?"active":""}`} onClick={()=>{onChange(s.key);setOpen(false);}}>
+              <span>{s.ico}</span>{s.label} {s.key===client.status&&"✓"}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── MODAL ──
+function Modal({title,onClose,footer,children,wide}){
+  useEffect(()=>{
+    const h=e=>e.key==="Escape"&&onClose();
+    window.addEventListener("keydown",h);
+    return()=>window.removeEventListener("keydown",h);
+  },[]);
+  return(
+    <div className="overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal" style={wide?{maxWidth:640}:{}}>
+        <div className="modal-head"><div className="modal-ttl">{title}</div><button className="modal-x" onClick={onClose}>×</button></div>
+        <div className="modal-body">{children}</div>
+        {footer&&<div className="modal-foot">{footer}</div>}
+      </div>
+    </div>
+  );
+}
+
+// ── APPT FORM ──
+function ApptForm({clients,companies,testTypes,cfg,appointments,initialDate,initialTime,initialClientId,onSave,onClose}){
+  const eligible=clients.filter(c=>c.status==="bekliyor");
+  const deviceCount=cfg?.deviceCount||1;
+  const defPrice=testTypes[0]?.price||500;
+  const[form,setForm]=useState({
+    clientId:initialClientId?String(initialClientId):"",phone:"",
+    date:initialDate||new Date().toISOString().split("T")[0],
+    time:initialTime||(cfg?.workStart||"09:00"),
+    testType:testTypes[0]?.id||"src",price:defPrice,
+    paymentMethod:"Nakit",paymentStatus:"bekliyor",companyId:"",notes:"",
+  });
+  const sf=(k,v)=>setForm(p=>({...p,[k]:v}));
+  const slotConflict=useMemo(()=>{
+    if(!form.date||!form.time)return 0;
+    const dt=new Date(`${form.date}T${form.time}:00`);
+    return appointments.filter(a=>{
+      if(!a.date)return false;
+      const ad=new Date(a.date);
+      return ad.getFullYear()===dt.getFullYear()&&ad.getMonth()===dt.getMonth()&&
+        ad.getDate()===dt.getDate()&&ad.getHours()===dt.getHours()&&ad.getMinutes()===dt.getMinutes()&&
+        a.status!=="gelmedi"&&a.status!=="iptal";
+    }).length;
+  },[appointments,form.date,form.time]);
+  const handlePhone=v=>{sf("phone",v);const norm=normPhone(v);if(norm.length>=10){const f=clients.find(c=>normPhone(c.phone)===norm);if(f)sf("clientId",String(f.id));}};
+  const handleTT=v=>{const tt=testTypes.find(t=>t.id===v);sf("testType",v);if(tt)sf("price",tt.price);};
+  const save=()=>{
+    if(!form.clientId||!form.date)return alert("Müşteri ve tarih zorunlu");
+    if(slotConflict>=deviceCount)return alert(`Bu saatte tüm cihazlar dolu (${deviceCount}/${deviceCount})!`);
+    const dt=new Date(`${form.date}T${form.time}:00`);
+    onSave({...form,clientId:parseInt(form.clientId),companyId:form.companyId?parseInt(form.companyId):null,date:dt.toISOString(),price:parseInt(form.price)||0,status:"randevu",reminded:false,id:genId()});
+  };
+  const selClient=form.clientId?clients.find(c=>c.id===parseInt(form.clientId)):null;
+  const isFull=slotConflict>=deviceCount;
+  return(
+    <Modal title="Yeni Randevu" onClose={onClose} footer={<><button className="btn" onClick={onClose}>İptal</button><button className="btn btn-p" onClick={save} style={isFull?{opacity:.5}:{}}>Kaydet</button></>}>
+      <div className="f2">
+        <div className="fg full">
+          <label className="fl">Telefon ile Hızlı Ara</label>
+          <input className="fi" placeholder="05XX XXX XX XX" value={form.phone} onChange={e=>handlePhone(e.target.value)}/>
+          {selClient&&<div style={{fontSize:11,color:"var(--teal)",fontWeight:700,marginTop:3}}>✓ {selClient.name} {selClient.surname} bulundu</div>}
+        </div>
+        <div className="fg full">
+          <label className="fl">Müşteri *</label>
+          <select className="fi fi-sel" value={form.clientId} onChange={e=>sf("clientId",e.target.value)}>
+            <option value="">Seçin... ({eligible.length} kişi bekliyor)</option>
+            {eligible.map(c=><option key={c.id} value={c.id}>{c.name} {c.surname} — {c.phone}</option>)}
+          </select>
+        </div>
+        <div className="fg"><label className="fl">Tarih *</label><input className="fi" type="date" value={form.date} onChange={e=>sf("date",e.target.value)}/></div>
+        <div className="fg">
+          <label className="fl">Saat</label>
+          <input className="fi" type="time" value={form.time} onChange={e=>sf("time",e.target.value)}/>
+          {form.time&&form.date&&(
+            <div style={{fontSize:10,marginTop:3,fontWeight:700,color:isFull?"var(--red)":slotConflict>0?"var(--amb)":"var(--grn)"}}>
+              {isFull?`⛔ Dolu (${deviceCount}/${deviceCount})`:`✓ Müsait (${slotConflict}/${deviceCount})`}
+            </div>
+          )}
+        </div>
+        <div className="fg full">
+          <label className="fl">Test Türü</label>
+          <select className="fi fi-sel" value={form.testType} onChange={e=>handleTT(e.target.value)}>
+            {testTypes.map(t=><option key={t.id} value={t.id}>{t.label}</option>)}
+          </select>
+        </div>
+        <div className="fg"><label className="fl">Ücret (₺)</label><input className="fi" type="number" value={form.price} onChange={e=>sf("price",e.target.value)}/></div>
+        <div className="fg"><label className="fl">Ödeme</label>
+          <select className="fi fi-sel" value={form.paymentMethod} onChange={e=>sf("paymentMethod",e.target.value)}>
+            <option>Nakit</option><option>Kart</option><option>Havale/EFT</option>
+          </select>
+        </div>
+        <div className="fg"><label className="fl">Ödeme Durumu</label>
+          <select className="fi fi-sel" value={form.paymentStatus} onChange={e=>sf("paymentStatus",e.target.value)}>
+            <option value="bekliyor">Bekliyor</option><option value="ödendi">Ödendi</option>
+          </select>
+        </div>
+        <div className="fg"><label className="fl">Şirket</label>
+          <select className="fi fi-sel" value={form.companyId} onChange={e=>sf("companyId",e.target.value)}>
+            <option value="">Bireysel</option>
+            {companies.map(co=><option key={co.id} value={co.id}>{co.name}</option>)}
+          </select>
+        </div>
+        <div className="fg full"><label className="fl">Not</label><textarea className="fi fi-ta" value={form.notes} onChange={e=>sf("notes",e.target.value)}/></div>
+      </div>
+    </Modal>
+  );
+}
+
+// ── DASHBOARD ──
+function Dashboard({clients,appointments,companies,testTypes,cfg,setPage}){
+  const todayA=appointments.filter(a=>isToday(a.date)).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const tmrA=appointments.filter(a=>isTomorrow(a.date));
+  const adaylar=clients.filter(c=>c.status==="teste_girdi");
+  const potent=clients.filter(c=>c.status==="potansiyel");
+  const gelme=clients.filter(c=>c.status==="gelmedi");
+  const expRen=adaylar.filter(c=>c.renewalDate&&daysUntil(c.renewalDate)<0);
+  const urgRen=adaylar.filter(c=>{const d=daysUntil(c.renewalDate);return d!==null&&d>=0&&d<=30;});
+  const pendPay=appointments.filter(a=>a.paymentStatus==="bekliyor");
+  const pendTot=pendPay.reduce((s,a)=>s+(a.price||0),0);
+  const todayRev=todayA.filter(a=>a.paymentStatus==="ödendi").reduce((s,a)=>s+(a.price||0),0);
+  const mthRev=appointments.filter(a=>a.paymentStatus==="ödendi"&&new Date(a.date).getMonth()===_now.getMonth()&&new Date(a.date).getFullYear()===_now.getFullYear()).reduce((s,a)=>s+(a.price||0),0);
+  const cmap=Object.fromEntries(clients.map(c=>[c.id,c]));
+  const ttmap=Object.fromEntries(testTypes.map(t=>[t.id,t]));
+  const tmrUnrem=tmrA.filter(a=>!a.reminded);
+  return(
+    <div className="content">
+      <div className="ph">
+        <div><h2>Günaydın 👋</h2><p>{new Date().toLocaleDateString("tr-TR",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p></div>
+        <div style={{textAlign:"right",fontSize:12,color:"var(--txt2)"}}><div style={{fontWeight:700,color:"var(--teal)"}}>{cfg?.centerName||"PsikoMerkez"}</div><div>{cfg?.psychologist||""}</div></div>
+      </div>
+      {expRen.length>0&&<div className="alert al-red">⚠ <strong>{expRen.length} adayın yenileme süresi geçmiş!</strong></div>}
+      {tmrUnrem.length>0&&<div className="alert al-amb">🔔 <strong>Yarın {tmrUnrem.length} randevu var</strong> — hatırlatma gönderilmedi. <span style={{cursor:"pointer",textDecoration:"underline"}} onClick={()=>setPage("messages")}>Gönder →</span></div>}
+      {pendPay.length>0&&<div className="alert al-blu">💸 <strong>{pendPay.length} bekleyen ödeme</strong> — {pendTot.toLocaleString("tr-TR")}₺</div>}
+      <div className="three-col" style={{marginBottom:16}}>
+        <div className="card" style={{padding:"14px 16px"}}><div style={{fontFamily:"'Instrument Serif',serif",fontSize:24}}>{todayA.length}</div><div style={{fontSize:11,color:"var(--txt2)",marginTop:3}}>📅 Bugünkü Randevu</div></div>
+        <div className="card" style={{padding:"14px 16px"}}><div style={{fontFamily:"'Instrument Serif',serif",fontSize:24,color:"var(--teal)"}}>{todayRev.toLocaleString("tr-TR")}₺</div><div style={{fontSize:11,color:"var(--txt2)",marginTop:3}}>💰 Bugünkü Gelir</div></div>
+        <div className="card" style={{padding:"14px 16px"}}><div style={{fontFamily:"'Instrument Serif',serif",fontSize:24,color:"var(--grn)"}}>{mthRev.toLocaleString("tr-TR")}₺</div><div style={{fontSize:11,color:"var(--txt2)",marginTop:3}}>📊 Bu Ay Toplam</div></div>
+      </div>
+      <div className="stats">
+        <div className="stat"><div className="stat-ico">🎯</div><div className="stat-val">{adaylar.length}</div><div className="stat-lbl">Adaylarım</div></div>
+        <div className="stat"><div className="stat-ico">💡</div><div className="stat-val" style={{color:"var(--pur)"}}>{potent.length}</div><div className="stat-lbl">Potansiyel</div></div>
+        <div className="stat"><div className="stat-ico">🔄</div><div className="stat-val" style={{color:(expRen.length+urgRen.length)>0?"var(--amb)":"var(--txt)"}}>{expRen.length+urgRen.length}</div><div className="stat-lbl">Yenileme Gereken</div></div>
+        <div className="stat"><div className="stat-ico">🔴</div><div className="stat-val" style={{color:gelme.length>0?"var(--red)":"var(--txt)"}}>{gelme.length}</div><div className="stat-lbl">Gelmeyenler</div></div>
+      </div>
+      <div className="two-col">
+        <div className="card">
+          <div className="card-head"><div><div className="card-ttl">📅 Bugün</div><div className="card-sub">{todayA.length} randevu</div></div><button className="btn btn-sm btn-ghost" onClick={()=>setPage("appointments")}>Tümü →</button></div>
+          <div style={{padding:"4px 12px"}}>
+            {todayA.length===0?<div className="empty"><div className="empty-ico">✅</div><div className="empty-txt">Bugün randevu yok</div></div>:
+              todayA.map(a=>{const c=cmap[a.clientId];const tt=ttmap[a.testType];return(
+                <div key={a.id} className="ar">
+                  <div className="ar-time"><div className="ar-h">{fmtTime(a.date).split(":")[0]}</div><div className="ar-m">:{fmtTime(a.date).split(":")[1]}</div></div>
+                  <div className="ar-bar" style={{background:a.status==="tamamlandı"?"#D1D5DB":"var(--teal)"}}/>
+                  <div className="ar-info">
+                    <div className="ar-name">{c?.name} {c?.surname}</div>
+                    <div className="ar-meta">{tt?.label} · {a.price?.toLocaleString()}₺</div>
+                    <div className="ar-acts">
+                      <span className={`badge ${a.status==="tamamlandı"?"b-grn":"b-amb"}`}>{a.status}</span>
+                      <span className={`badge ${a.paymentStatus==="ödendi"?"b-grn":"b-red"}`}>{a.paymentStatus}</span>
+                    </div>
+                  </div>
+                </div>
+              );})}
+          </div>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          <div className="card">
+            <div className="card-head"><div className="card-ttl">🔄 Yaklaşan Yenilemeler</div><button className="btn btn-sm btn-ghost" onClick={()=>setPage("renewals")}>Tümü →</button></div>
+            <div style={{padding:"8px 10px"}}>
+              {[...expRen,...urgRen].slice(0,4).map(c=>{
+                const days=daysUntil(c.renewalDate);
+                return(
+                  <div key={c.id} className={`rr ${days<0?"rr-exp":days<=7?"rr-urg":"rr-ok"}`}>
+                    <div><div style={{fontSize:12.5,fontWeight:700}}>{c.name} {c.surname}</div><div style={{fontSize:10.5,marginTop:1}}>{fmt(c.renewalDate)}</div></div>
+                    <div style={{display:"flex",gap:5,alignItems:"center"}}>
+                      <span className={`badge ${days<0?"b-red":days<=7?"b-amb":"b-blu"}`}>{days<0?`${Math.abs(days)}g geçti`:`${days}g kaldı`}</span>
+                      <button className="btn btn-sm btn-wa" onClick={()=>window.open(buildWA(c.phone,buildRenewMsg(c,cfg)),"_blank")}>WA</button>
+                    </div>
+                  </div>
+                );
+              })}
+              {expRen.length===0&&urgRen.length===0&&<div style={{fontSize:12,color:"var(--txt3)",textAlign:"center",padding:"11px 0"}}>✅ Acil yenileme yok</div>}
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-head"><div className="card-ttl">🎯 Potansiyel</div><button className="btn btn-sm btn-ghost" onClick={()=>setPage("clients")}>Tümü →</button></div>
+            <div style={{padding:"8px 13px"}}>
+              {potent.slice(0,3).map(c=>(
+                <div key={c.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:"1px solid var(--brd)"}}>
+                  <div><div style={{fontSize:12.5,fontWeight:700}}>{c.name} {c.surname}</div><div style={{fontSize:10.5,color:"var(--txt2)"}}>{c.howFound}</div></div>
+                  <button className="btn btn-sm btn-wa" onClick={()=>window.open(buildWA(c.phone,`Sayın ${c.name} ${c.surname}, ${cfg?.centerName||"PsikoMerkez"} için bizi arayın. ${cfg?.phone||""}`),"_blank")}>WA</button>
+                </div>
+              ))}
+              {potent.length===0&&<div style={{fontSize:12,color:"var(--txt3)",textAlign:"center",padding:"10px 0"}}>Potansiyel müşteri yok</div>}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── APPOINTMENTS PAGE ──
+function AppointmentsPage({appointments,setAppointments,clients,setClients,companies,testTypes,cfg,showToast}){
+  const[view,setView]=useState("schedule");
+  const[selDate,setSelDate]=useState(isoDate(new Date()));
+  const[calMonth,setCalMonth]=useState(new Date());
+  const[showAdd,setShowAdd]=useState(false);
+  const[addTime,setAddTime]=useState("");
+  const[selAppt,setSelAppt]=useState(null);
+  const cmap=Object.fromEntries(clients.map(c=>[c.id,c]));
+  const ttmap=Object.fromEntries(testTypes.map(t=>[t.id,t]));
+  const slots=useMemo(()=>buildSlots(cfg||DEFAULT_SETTINGS),[cfg?.workStart,cfg?.workEnd,cfg?.slotMinutes]);
+  const deviceCount=cfg?.deviceCount||1;
+  const year=calMonth.getFullYear();const month=calMonth.getMonth();
+  const firstDay=new Date(year,month,1).getDay();
+  const dim=new Date(year,month+1,0).getDate();
+  const offset=firstDay===0?6:firstDay-1;
+  const cells=[];
+  for(let i=0;i<offset;i++){cells.push({date:new Date(year,month,-(offset-1-i)),other:true});}
+  for(let i=1;i<=dim;i++)cells.push({date:new Date(year,month,i),other:false});
+  while(cells.length%7!==0){const last=cells[cells.length-1].date;cells.push({date:new Date(last.getTime()+86400000),other:true});}
+  const dayAppts=useMemo(()=>appointments.filter(a=>a.date&&isoDate(new Date(a.date))===selDate).sort((a,b)=>new Date(a.date)-new Date(b.date)),[appointments,selDate]);
+  const slotMap=useMemo(()=>{const m={};dayAppts.forEach(a=>{const t=fmtTime(a.date);if(!m[t])m[t]=[];m[t].push(a);});return m;},[dayAppts]);
+  const apptByDate=useMemo(()=>{const m={};appointments.forEach(a=>{if(a.date){const k=isoDate(new Date(a.date));m[k]=(m[k]||0)+1;}});return m;},[appointments]);
+  const saveAppt=appt=>{setAppointments(p=>[...p,appt]);setClients(p=>p.map(c=>c.id===appt.clientId&&c.status==="bekliyor"?{...c,status:"randevulu"}:c));setShowAdd(false);setAddTime("");showToast("Randevu eklendi ✓","ok");};
+  const markTest=id=>{const a=appointments.find(x=>x.id===id);if(!a)return;const tt=testTypes.find(t=>t.id===a.testType);const renewalDate=addYears(a.date,tt?.renewalYears||5);setClients(p=>p.map(c=>c.id!==a.clientId?c:{...c,status:"teste_girdi",testType:a.testType,testDate:a.date,renewalDate}));setAppointments(p=>p.map(x=>x.id===id?{...x,status:"tamamlandı"}:x));setSelAppt(null);showToast("✅ Teste girdi!","ok");};
+  const undoTest=id=>{const a=appointments.find(x=>x.id===id);if(!a)return;setClients(p=>p.map(c=>c.id!==a.clientId?c:{...c,status:"bekliyor",testType:null,testDate:null,renewalDate:null}));setAppointments(p=>p.map(x=>x.id===id?{...x,status:"randevu"}:x));setSelAppt(null);showToast("Geri alındı","warn");};
+  const markGelmedi=id=>{const a=appointments.find(x=>x.id===id);if(!a)return;setClients(p=>p.map(c=>c.id!==a.clientId?c:{...c,status:"gelmedi"}));setAppointments(p=>p.map(x=>x.id===id?{...x,status:"gelmedi"}:x));setSelAppt(null);showToast("Gelmedi","warn");};
+  const markIptal=id=>{const a=appointments.find(x=>x.id===id);if(!a)return;setClients(p=>p.map(c=>c.id!==a.clientId?c:{...c,status:"iptal"}));setAppointments(p=>p.map(x=>x.id===id?{...x,status:"iptal"}:x));setSelAppt(null);showToast("İptal edildi","warn");};
+  const markPaid=id=>{setAppointments(p=>p.map(a=>a.id===id?{...a,paymentStatus:"ödendi"}:a));showToast("Ödeme alındı ✓","ok");};
+  const markRemind=id=>{setAppointments(p=>p.map(a=>a.id===id?{...a,reminded:true}:a));};
+  const deleteAppt=id=>{setAppointments(p=>p.filter(a=>a.id!==id));setSelAppt(null);showToast("Silindi","ok");};
+  const selDateLabel=()=>{const d=new Date(selDate+"T12:00:00");const days=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];return `${days[d.getDay()]}, ${d.getDate()} ${MONTHS_TR[d.getMonth()]}`;};
+  const slotCapColor=(booked,cap)=>{if(booked===0)return"var(--grn)";if(booked>=cap)return"var(--red)";return"var(--amb)";};
+  return(
+    <div className="content">
+      <div className="ph">
+        <div><h2>Randevular</h2><p>{appointments.length} toplam · {deviceCount} cihaz</p></div>
+        <div className="ph-acts">
+          <div style={{display:"flex",gap:3,background:"var(--sur2)",padding:3,borderRadius:9}}>
+            <button className={`btn btn-sm ${view==="schedule"?"btn-p":"btn-ghost"}`} onClick={()=>setView("schedule")}>📋 Program</button>
+            <button className={`btn btn-sm ${view==="calendar"?"btn-p":"btn-ghost"}`} onClick={()=>setView("calendar")}>📅 Takvim</button>
+          </div>
+          <button className="btn btn-p" onClick={()=>{setAddTime("");setShowAdd(true);}}>+ Randevu Ekle</button>
+        </div>
+      </div>
+      {view==="schedule"&&(
+        <div style={{display:"grid",gridTemplateColumns:"220px 1fr",gap:14}}>
+          <div>
+            <div className="card">
+              <div className="cal-nav" style={{padding:"10px 14px"}}>
+                <button className="btn btn-sm btn-ghost" onClick={()=>setCalMonth(new Date(year,month-1,1))}>←</button>
+                <div style={{fontFamily:"'Instrument Serif',serif",fontSize:13}}>{MONTHS_TR[month].slice(0,3)} {year}</div>
+                <button className="btn btn-sm btn-ghost" onClick={()=>setCalMonth(new Date(year,month+1,1))}>→</button>
+              </div>
+              <div className="cal-grid">
+                {DAYS_TR.map(d=><div key={d} className="cal-dh" style={{fontSize:8}}>{d}</div>)}
+                {cells.map((cell,i)=>{
+                  const k=isoDate(cell.date);const cnt=apptByDate[k]||0;
+                  const isT=cell.date.toDateString()===new Date().toDateString();const isSel=k===selDate;
+                  return(
+                    <div key={i} className={`cal-day ${isT&&!isSel?"cal-today":""} ${cell.other?"cal-other":""}`}
+                      style={{minHeight:32,padding:"4px 3px",background:isSel?"var(--teal)":undefined,cursor:cell.other?"default":"pointer"}}
+                      onClick={()=>!cell.other&&setSelDate(k)}>
+                      <div style={{fontSize:10,fontWeight:700,color:isSel?"#fff":isT?"var(--teal)":"var(--txt2)",textAlign:"center"}}>{cell.date.getDate()}</div>
+                      {cnt>0&&<div style={{width:5,height:5,borderRadius:"50%",background:isSel?"#fff":"var(--teal)",margin:"1px auto"}}/>}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="card" style={{marginTop:10,padding:"11px 14px"}}>
+              <div style={{fontSize:9.5,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:8}}>Seçili Gün Doluluk</div>
+              {slots.map(slot=>{
+                const booked=(slotMap[slot]||[]).length;const pct=Math.min(100,Math.round(booked/deviceCount*100));const col=slotCapColor(booked,deviceCount);
+                if(booked===0)return null;
+                return(
+                  <div key={slot} style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}>
+                    <div style={{fontSize:10,color:"var(--txt3)",width:34,flexShrink:0}}>{slot}</div>
+                    <div style={{flex:1,background:"var(--sur2)",borderRadius:20,height:6,overflow:"hidden"}}>
+                      <div style={{width:pct+"%",height:"100%",background:col,borderRadius:20,transition:"width .3s"}}/>
+                    </div>
+                    <div style={{fontSize:9.5,fontWeight:700,color:col,width:28,textAlign:"right"}}>{booked}/{deviceCount}</div>
+                  </div>
+                );
+              })}
+              {dayAppts.length===0&&<div style={{fontSize:11,color:"var(--txt3)"}}>Randevu yok</div>}
+            </div>
+          </div>
+          <div>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+              <div>
+                <div style={{fontFamily:"'Instrument Serif',serif",fontSize:16}}>{selDateLabel()}</div>
+                <div style={{fontSize:11,color:"var(--txt2)",marginTop:2}}>{dayAppts.length} randevu · {deviceCount} cihaz</div>
+              </div>
+              <button className="btn btn-sm btn-p" onClick={()=>{setAddTime("");setShowAdd(true);}}>+ Ekle</button>
+            </div>
+            <div className="card">
+              <div style={{padding:"8px 10px",display:"flex",flexDirection:"column",gap:4}}>
+                {slots.map(slot=>{
+                  const booked=slotMap[slot]||[];const activeBooked=booked.filter(a=>a.status!=="gelmedi"&&a.status!=="iptal");const isReallyFull=activeBooked.length>=deviceCount;
+                  if(booked.length>0){
+                    return(
+                      <div key={slot}>
+                        <div style={{display:"flex",alignItems:"center",gap:8,padding:"3px 10px",background:"var(--sur)",borderRadius:"7px 7px 0 0",borderBottom:"1px solid var(--brd)"}}>
+                          <div style={{fontSize:11,fontWeight:700,color:"var(--txt2)",width:36}}>{slot}</div>
+                          <div style={{display:"flex",gap:3,flex:1}}>
+                            {Array.from({length:deviceCount},(_,i)=>(
+                              <div key={i} style={{flex:1,height:5,borderRadius:20,background:i<activeBooked.length?slotCapColor(activeBooked.length,deviceCount):"var(--brd2)"}}/>
+                            ))}
+                          </div>
+                          <div style={{fontSize:10,fontWeight:700,color:slotCapColor(activeBooked.length,deviceCount)}}>{activeBooked.length}/{deviceCount}</div>
+                          {!isReallyFull&&<button className="btn btn-sm btn-ghost" style={{fontSize:9,padding:"2px 6px"}} onClick={()=>{setAddTime(slot);setShowAdd(true);}}>+ Ekle</button>}
+                          {isReallyFull&&<span style={{fontSize:9,color:"var(--red)",fontWeight:700}}>DOLU</span>}
+                        </div>
+                        <div style={{display:"flex",flexDirection:"column",gap:2,marginBottom:4}}>
+                          {booked.map((a,idx)=>{
+                            const c=cmap[a.clientId];const tt=ttmap[a.testType];
+                            const isDone=a.status==="tamamlandı";const isGelmedi=a.status==="gelmedi";const isIptal=a.status==="iptal";
+                            const slotClass=isGelmedi?"gelmedi":isIptal?"done":isDone?"done":"booked";
+                            return(
+                              <div key={a.id} className={`sch-slot ${slotClass}`} style={{cursor:"pointer",borderRadius:idx===booked.length-1?"0 0 8px 8px":"0",borderTop:"none"}} onClick={()=>setSelAppt(a)}>
+                                {deviceCount>1&&<div style={{fontSize:9,color:"var(--txt3)",width:16,flexShrink:0,fontWeight:700}}>C{idx+1}</div>}
+                                <div className="sch-time">{slot}</div>
+                                <div className="sch-content">
+                                  <div className="sch-name">{c?.name} {c?.surname}</div>
+                                  <div className="sch-meta">{tt?.label} · {a.price?.toLocaleString()}₺
+                                    <span className={`badge ${a.paymentStatus==="ödendi"?"b-grn":"b-red"}`} style={{marginLeft:6,fontSize:9}}>{a.paymentStatus}</span>
+                                  </div>
+                                </div>
+                                {a.status==="randevu"&&(
+                                  <div style={{display:"flex",gap:3,flexShrink:0}} onClick={e=>e.stopPropagation()}>
+                                    <button className="btn btn-sm btn-p" style={{fontSize:10,padding:"3px 7px"}} onClick={()=>markTest(a.id)}>✓ Girdi</button>
+                                    <button className="btn btn-sm" style={{fontSize:10,padding:"3px 7px",color:"var(--red)",borderColor:"#FCA5A5"}} onClick={()=>markGelmedi(a.id)}>🔴</button>
+                                    {c&&<button className="btn btn-sm btn-wa" style={{fontSize:10,padding:"3px 7px"}} onClick={()=>{window.open(buildWA(c.phone,buildRemindMsg(c,a,cfg)),"_blank");markRemind(a.id);}}>WA</button>}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }else{
+                    return(
+                      <div key={slot} className="sch-slot empty" onClick={()=>{setAddTime(slot);setShowAdd(true);}}>
+                        <div className="sch-time" style={{color:"var(--txt3)"}}>{slot}</div>
+                        <div style={{display:"flex",gap:3,flex:1,alignItems:"center"}}>
+                          {Array.from({length:deviceCount},(_,i)=><div key={i} style={{height:4,flex:1,background:"var(--brd)",borderRadius:20}}/>)}
+                        </div>
+                        <div className="sch-add">+ Randevu ekle</div>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {view==="calendar"&&(
+        <div className="card">
+          <div className="cal-nav">
+            <button className="btn btn-sm btn-ghost" onClick={()=>setCalMonth(new Date(year,month-1,1))}>←</button>
+            <div className="cal-ttl">{MONTHS_TR[month]} {year}</div>
+            <button className="btn btn-sm btn-ghost" onClick={()=>setCalMonth(new Date(year,month+1,1))}>→</button>
+          </div>
+          <div className="cal-grid">
+            {DAYS_TR.map(d=><div key={d} className="cal-dh">{d}</div>)}
+            {cells.map((cell,i)=>{
+              const k=isoDate(cell.date);const dayA=appointments.filter(a=>a.date&&isoDate(new Date(a.date))===k).sort((a,b)=>new Date(a.date)-new Date(b.date));
+              const isT=cell.date.toDateString()===new Date().toDateString();
+              return(
+                <div key={i} className={`cal-day ${isT?"cal-today":""} ${cell.other?"cal-other":""}`} style={{minHeight:80,cursor:cell.other?"default":"pointer"}} onClick={()=>!cell.other&&(setSelDate(k),setView("schedule"))}>
+                  <div className="cal-dn">{cell.date.getDate()}</div>
+                  {dayA.slice(0,3).map(a=>{const c=cmap[a.clientId];const col=a.status==="tamamlandı"?"#9CA3AF":"var(--teal)";return<div key={a.id} className="cal-dot" style={{background:col+"22",color:col}} onClick={e=>{e.stopPropagation();setSelAppt(a);}}>{fmtTime(a.date)} {c?.name}</div>;})}
+                  {dayA.length>3&&<div style={{fontSize:9,color:"var(--txt3)",fontWeight:700}}>+{dayA.length-3}</div>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+      {selAppt&&(()=>{
+        const a=selAppt;const c=cmap[a.clientId];const tt=ttmap[a.testType];
+        return(
+          <Modal title="Randevu Detayı" onClose={()=>setSelAppt(null)} footer={
+            <>
+              {a.status==="randevu"&&<button className="btn btn-sm btn-p" onClick={()=>markTest(a.id)}>✓ Teste Girdi</button>}
+              {a.status==="tamamlandı"&&<button className="btn btn-sm btn-undo" onClick={()=>undoTest(a.id)}>↩ Geri Al</button>}
+              {a.status==="randevu"&&<button className="btn btn-sm" style={{color:"var(--red)",borderColor:"#FCA5A5"}} onClick={()=>markGelmedi(a.id)}>🔴 Gelmedi</button>}
+              {a.status==="randevu"&&<button className="btn btn-sm btn-ghost" onClick={()=>markIptal(a.id)}>❌ İptal</button>}
+              {a.status==="randevu"&&<button className="btn btn-sm btn-ghost" onClick={()=>{const nd=prompt("Yeni tarih (YYYY-AA-GG):",a.date.split("T")[0]);if(!nd)return;const nt=prompt("Yeni saat (SS:DD):",fmtTime(a.date));if(!nt)return;const iso=new Date(`${nd}T${nt}:00`).toISOString();setAppointments(p=>p.map(x=>x.id===a.id?{...x,date:iso}:x));setSelAppt(p=>({...p,date:iso}));showToast("Randevu güncellendi ✓","ok");}}>📅 Tarih Değiştir</button>}
+              {a.paymentStatus==="bekliyor"&&<button className="btn btn-sm" style={{color:"var(--grn)",borderColor:"#A7F3D0"}} onClick={()=>{markPaid(a.id);setSelAppt(null);}}>💰 Ödendi</button>}
+              <button className="btn btn-sm btn-del" onClick={()=>deleteAppt(a.id)}>Sil</button>
+              <button className="btn btn-ghost btn-sm" onClick={()=>setSelAppt(null)}>Kapat</button>
+            </>
+          }>
+            <div className="dg">
+              <div className="di"><div className="di-l">Müşteri</div><div className="di-v">{c?.name} {c?.surname}</div></div>
+              <div className="di"><div className="di-l">Telefon</div><div className="di-v">{c?.phone}</div></div>
+              <div className="di"><div className="di-l">Tarih & Saat</div><div className="di-v">{fmt(a.date)} · {fmtTime(a.date)}</div></div>
+              <div className="di"><div className="di-l">Test Türü</div><div className="di-v">{tt?.label}</div></div>
+              <div className="di"><div className="di-l">Ücret</div><div className="di-v">{a.price?.toLocaleString("tr-TR")}₺ · {a.paymentMethod}</div></div>
+              <div className="di"><div className="di-l">Ödeme</div><div className="di-v"><span className={`badge ${a.paymentStatus==="ödendi"?"b-grn":"b-red"}`}>{a.paymentStatus}</span></div></div>
+            </div>
+            {a.notes&&<div style={{background:"var(--sur)",padding:"9px 12px",borderRadius:8,fontSize:13}}>📝 {a.notes}</div>}
+          </Modal>
+        );
+      })()}
+      {showAdd&&<ApptForm clients={clients} companies={companies} testTypes={testTypes} cfg={cfg} appointments={appointments} initialDate={selDate} initialTime={addTime} onSave={saveAppt} onClose={()=>{setShowAdd(false);setAddTime("");}}/>}
+    </div>
+  );
+}
+
+// ── CLIENTS PAGE ──
+function ClientsPage({clients,setClients,setTrash,setAppointments,appointments,companies,setCompanies,testTypes,cfg,showToast}){
+  const[search,setSearch]=useState("");
+  const[filter,setFilter]=useState("all");
+  const[dateFrom,setDateFrom]=useState("");
+  const[dateTo,setDateTo]=useState("");
+  const[sel,setSel]=useState(null);
+  const[showAdd,setShowAdd]=useState(false);
+  const[showEdit,setShowEdit]=useState(false);
+  const[customMsg,setCustomMsg]=useState("");
+  const[showCustomMsg,setShowCustomMsg]=useState(false);
+  const[showGelmediNote,setShowGelmediNote]=useState(false);
+  const[gelmediNote,setGelmediNote]=useState("");
+  const[gelmediTarget,setGelmediTarget]=useState(null);
+  // Şirket ekleme
+  const[showAddCo,setShowAddCo]=useState(false);
+  const[newCoName,setNewCoName]=useState("");
+  const[newCoPhone,setNewCoPhone]=useState("");
+  const[newCoContact,setNewCoContact]=useState("");
+
+  // Form state
+  const emptyForm={name:"",surname:"",phone:"",companyType:"bireysel",companyId:"",howFound:"Referans",notes:""};
+  const[form,setForm]=useState(emptyForm);
+  const sf=(k,v)=>setForm(p=>({...p,[k]:v}));
+  const ttmap=Object.fromEntries(testTypes.map(t=>[t.id,t]));
+  const comap=Object.fromEntries(companies.map(c=>[c.id,c]));
+
+  // Telefon girince gelmedi uyarısı
+  const handlePhone=v=>{
+    sf("phone",v);
+    const norm=normPhone(v);
+    if(norm.length>=10){
+      const found=clients.find(c=>normPhone(c.phone)===norm&&c.status==="gelmedi");
+      if(found){
+        const appts=appointments.filter(a=>a.clientId===found.id);
+        const note=found.gelmediNote?"Not: "+found.gelmediNote:"";
+        if(window.confirm(`⚠️ Bu numara "${found.name} ${found.surname}" adıyla kayıtlı ve GELMEDİ olarak işaretlenmiş!\n${note}\nDevam etmek istiyor musunuz?`)){
+          sf("name",found.name);sf("surname",found.surname);
+        } else {sf("phone","");}
+      }
+    }
+  };
+
+  const filtered=useMemo(()=>{
+    let list=clients;
+    if(filter!=="all")list=list.filter(c=>c.status===filter);
+    if(dateFrom)list=list.filter(c=>c.createdAt&&c.createdAt>=dateFrom);
+    if(dateTo)list=list.filter(c=>c.createdAt&&c.createdAt<=dateTo+"T23:59:59");
+    return list.filter(c=>`${c.name} ${c.surname} ${c.phone}`.toLowerCase().includes(search.toLowerCase()));
+  },[clients,search,filter,dateFrom,dateTo]);
+
+  const addClient=()=>{
+    if(!form.name||!form.phone)return showToast("Ad ve telefon zorunlu","err");
+    const norm=normPhone(form.phone);
+    if(clients.find(c=>normPhone(c.phone)===norm))return showToast("Bu telefon zaten kayıtlı","err");
+    const coId=form.companyType==="sirket"&&form.companyId?parseInt(form.companyId):null;
+    setClients(p=>[...p,{...form,id:genId(),companyId:coId,status:"bekliyor",testType:null,testDate:null,renewalDate:null,gelmediNote:"",createdAt:new Date().toISOString()}]);
+    setShowAdd(false);setForm(emptyForm);showToast("Müşteri eklendi ✓","ok");
+  };
+
+  const saveEdit=()=>{
+    if(!form.name||!form.phone)return showToast("Ad ve telefon zorunlu","err");
+    const coId=form.companyType==="sirket"&&form.companyId?parseInt(form.companyId):null;
+    const updated={...sel,...form,companyId:coId};
+    setClients(p=>p.map(c=>c.id===sel.id?updated:c));
+    setSel(updated);setShowEdit(false);showToast("Güncellendi ✓","ok");
+  };
+
+  const openEdit=()=>{
+    setForm({
+      name:sel.name,surname:sel.surname||"",phone:sel.phone,
+      companyType:sel.companyId?"sirket":"bireysel",
+      companyId:sel.companyId?String(sel.companyId):"",
+      howFound:sel.howFound||"Referans",notes:sel.notes||""
+    });
+    setShowEdit(true);
+  };
+
+  const changeStatus=(id,s)=>{
+    if(s==="gelmedi"){
+      setGelmediTarget(id);setGelmediNote("");setShowGelmediNote(true);return;
+    }
+    setClients(p=>p.map(c=>c.id===id?{...c,status:s}:c));
+    if(sel&&sel.id===id)setSel(p=>({...p,status:s}));
+    showToast("Durum güncellendi ✓","ok");
+  };
+
+  const confirmGelmedi=()=>{
+    setClients(p=>p.map(c=>c.id===gelmediTarget?{...c,status:"gelmedi",gelmediNote}:c));
+    if(sel&&sel.id===gelmediTarget)setSel(p=>({...p,status:"gelmedi",gelmediNote}));
+    setShowGelmediNote(false);showToast("Gelmedi olarak işaretlendi","warn");
+  };
+
+  const deleteClient=id=>{
+    const c=clients.find(x=>x.id===id);
+    if(c)setTrash(p=>[...p,{...c,deletedAt:new Date().toISOString()}]);
+    setClients(p=>p.filter(x=>x.id!==id));
+    setAppointments(p=>p.filter(x=>x.clientId!==id));
+    setSel(null);showToast("Çöpe taşındı","ok");
+  };
+
+  const addCompany=()=>{
+    if(!newCoName.trim())return showToast("Şirket adı zorunlu","err");
+    const nc={id:genId(),name:newCoName.trim(),contact:newCoContact,phone:newCoPhone,notes:""};
+    setCompanies(p=>[...p,nc]);
+    sf("companyId",String(nc.id));
+    setShowAddCo(false);setNewCoName("");setNewCoPhone("");setNewCoContact("");
+    showToast("Şirket eklendi ✓","ok");
+  };
+
+  const clientAppts=sel?appointments.filter(a=>a.clientId===sel.id).sort((a,b)=>new Date(b.date)-new Date(a.date)):[];
+  const filterTabs=[["all","Tümü",clients.length],["bekliyor","Bekliyor",clients.filter(c=>c.status==="bekliyor").length],["randevulu","Randevulu",clients.filter(c=>c.status==="randevulu").length],["teste_girdi","Teste Girdi",clients.filter(c=>c.status==="teste_girdi").length],["gelmedi","Gelmedi",clients.filter(c=>c.status==="gelmedi").length],["iptal","İptal",clients.filter(c=>c.status==="iptal").length],["potansiyel","Potansiyel",clients.filter(c=>c.status==="potansiyel").length]];
+
+  const ClientForm=({title,onSave,onClose})=>(
+    <Modal title={title} onClose={onClose} footer={<><button className="btn" onClick={onClose}>İptal</button><button className="btn btn-p" onClick={onSave}>Kaydet</button></>}>
+      <div className="f2">
+        <div className="fg"><label className="fl">Ad *</label><input className="fi" placeholder="Ahmet" value={form.name} onChange={e=>sf("name",e.target.value)}/></div>
+        <div className="fg"><label className="fl">Soyad</label><input className="fi" placeholder="Yılmaz" value={form.surname} onChange={e=>sf("surname",e.target.value)}/></div>
+        <div className="fg full"><label className="fl">Telefon *</label><input className="fi" placeholder="05XX XXX XX XX" value={form.phone} onChange={e=>handlePhone(e.target.value)}/></div>
+        <div className="fg"><label className="fl">Nasıl Buldu</label><select className="fi fi-sel" value={form.howFound} onChange={e=>sf("howFound",e.target.value)}>{HOW_FOUND.map(h=><option key={h}>{h}</option>)}</select></div>
+        <div className="fg">
+          <label className="fl">Kayıt Türü</label>
+          <div style={{display:"flex",gap:8}}>
+            <button className={`btn btn-sm ${form.companyType==="bireysel"?"btn-p":"btn-ghost"}`} onClick={()=>sf("companyType","bireysel")}>Bireysel</button>
+            <button className={`btn btn-sm ${form.companyType==="sirket"?"btn-p":"btn-ghost"}`} onClick={()=>sf("companyType","sirket")}>Şirket</button>
+          </div>
+        </div>
+        {form.companyType==="sirket"&&(
+          <div className="fg full">
+            <label className="fl">Şirket Seç</label>
+            <div style={{display:"flex",gap:8,alignItems:"center"}}>
+              <select className="fi fi-sel" style={{flex:1}} value={form.companyId} onChange={e=>sf("companyId",e.target.value)}>
+                <option value="">-- Şirket seçin --</option>
+                {companies.map(co=><option key={co.id} value={co.id}>{co.name}</option>)}
+              </select>
+              <button className="btn btn-sm btn-ghost" onClick={()=>setShowAddCo(true)}>+ Yeni Şirket</button>
+            </div>
+          </div>
+        )}
+        <div className="fg full"><label className="fl">Not</label><textarea className="fi fi-ta" value={form.notes} onChange={e=>sf("notes",e.target.value)}/></div>
+      </div>
+      {showAddCo&&(
+        <div style={{marginTop:16,padding:"12px 14px",background:"var(--sur)",borderRadius:8,border:"1px solid var(--brd)"}}>
+          <div style={{fontWeight:700,fontSize:13,marginBottom:10}}>Yeni Şirket Ekle</div>
+          <div className="f2">
+            <div className="fg full"><label className="fl">Şirket Adı *</label><input className="fi" value={newCoName} onChange={e=>setNewCoName(e.target.value)} placeholder="ABC Lojistik"/></div>
+            <div className="fg"><label className="fl">Yetkili</label><input className="fi" value={newCoContact} onChange={e=>setNewCoContact(e.target.value)} placeholder="Ad Soyad"/></div>
+            <div className="fg"><label className="fl">Telefon</label><input className="fi" value={newCoPhone} onChange={e=>setNewCoPhone(e.target.value)} placeholder="0312..."/></div>
+          </div>
+          <div style={{display:"flex",gap:8,marginTop:8}}>
+            <button className="btn btn-sm btn-p" onClick={addCompany}>Şirketi Ekle</button>
+            <button className="btn btn-sm btn-ghost" onClick={()=>setShowAddCo(false)}>İptal</button>
+          </div>
+        </div>
+      )}
+    </Modal>
+  );
+
+  return(
+    <div className="content">
+      <div className="ph">
+        <div><h2>Müşteriler</h2><p>{clients.length} kayıtlı</p></div>
+        <div className="ph-acts">
+          <button className="btn btn-excel" onClick={()=>{exportCSV(clients.filter(c=>c.status==="teste_girdi").map(c=>({Ad:c.name,Soyad:c.surname,Telefon:c.phone,"Test Türü":ttmap[c.testType]?.label||"—","Test Tarihi":fmt(c.testDate),"Yenileme":fmt(c.renewalDate)})),"teste-girenler.csv");showToast("Excel ✓","ok");}}>⬇ Excel</button>
+          <button className="btn btn-p" onClick={()=>{setForm(emptyForm);setShowAdd(true);}}>+ Müşteri Ekle</button>
+        </div>
+      </div>
+      <div style={{display:"flex",gap:8,marginBottom:13,alignItems:"center",flexWrap:"wrap"}}>
+        <div className="tabs" style={{marginBottom:0}}>
+          {filterTabs.map(([k,l,cnt])=>(
+            <button key={k} className={`tab ${filter===k?"on":""}`} onClick={()=>setFilter(k)}>{l} <span className="tc" style={{background:"var(--txt3)"}}>{cnt}</span></button>
+          ))}
+        </div>
+        <div className="sw"><span className="s-ico">🔍</span><input className="si" placeholder="Ad veya telefon..." value={search} onChange={e=>setSearch(e.target.value)}/></div>
+        <div style={{display:"flex",gap:6,alignItems:"center",fontSize:12,color:"var(--txt2)"}}>
+          <span>Kayıt:</span>
+          <input type="date" className="fi" style={{padding:"4px 8px",fontSize:12,width:130}} value={dateFrom} onChange={e=>setDateFrom(e.target.value)} placeholder="Başlangıç"/>
+          <span>—</span>
+          <input type="date" className="fi" style={{padding:"4px 8px",fontSize:12,width:130}} value={dateTo} onChange={e=>setDateTo(e.target.value)} placeholder="Bitiş"/>
+          {(dateFrom||dateTo)&&<button className="btn btn-sm btn-ghost" onClick={()=>{setDateFrom("");setDateTo("");}}>✕</button>}
+        </div>
+      </div>
+      <div className="card">
+        <table>
+          <thead><tr><th>Ad Soyad</th><th>Telefon</th><th>Nasıl Buldu</th><th>Şirket</th><th>Test Türü</th><th>Yenileme</th><th>Durum</th><th></th></tr></thead>
+          <tbody>
+            {filtered.length===0?<tr><td colSpan={8} style={{textAlign:"center",color:"var(--txt3)",padding:28}}>Sonuç bulunamadı</td></tr>:
+              filtered.map(c=>{const co=c.companyId?comap[c.companyId]:null;const tt=c.testType?ttmap[c.testType]:null;return(
+                <tr key={c.id} className="row" onClick={()=>setSel(c)}>
+                  <td style={{fontWeight:700}}>{c.name} {c.surname}{c.status==="gelmedi"&&<span style={{marginLeft:6,fontSize:10,color:"var(--red)",fontWeight:600}}>⚠ GELMEDİ</span>}</td>
+                  <td style={{color:"var(--txt2)",fontSize:12}}>{c.phone}</td>
+                  <td style={{fontSize:11.5,color:"var(--txt2)"}}>{c.howFound||"—"}</td>
+                  <td>{co?<span className="badge b-blu">{co.name}</span>:<span style={{color:"var(--txt3)"}}>Bireysel</span>}</td>
+                  <td>{tt?<span className="badge b-teal">{tt.label}</span>:<span style={{color:"var(--txt3)"}}>—</span>}</td>
+                  <td style={{fontSize:11.5,color:"var(--txt2)"}}>{c.renewalDate?fmt(c.renewalDate):"—"}</td>
+                  <td><StatusBadge status={c.status} renewalDate={c.renewalDate}/></td>
+                  <td onClick={e=>e.stopPropagation()}><StatusChanger client={c} onChange={s=>changeStatus(c.id,s)}/></td>
+                </tr>
+              );})}
+          </tbody>
+        </table>
+      </div>
+
+      {/* MÜŞTERİ DETAY */}
+      {sel&&(
+        <Modal title={`${sel.name} ${sel.surname}`} onClose={()=>setSel(null)} footer={
+          <>
+            <button className="btn btn-sm btn-ghost" onClick={openEdit}>✏️ Düzenle</button>
+            <StatusChanger client={sel} onChange={s=>changeStatus(sel.id,s)}/>
+            <button className="btn btn-del btn-sm" onClick={()=>deleteClient(sel.id)}>🗑 Çöpe At</button>
+            <button className="btn btn-sm btn-wa" onClick={()=>{setCustomMsg(`Sayın ${sel.name} ${sel.surname}, `);setShowCustomMsg(true);}}>💬 Özel Mesaj</button>
+            <button className="btn btn-ghost btn-sm" onClick={()=>setSel(null)}>Kapat</button>
+          </>
+        }>
+          {sel.status==="gelmedi"&&sel.gelmediNote&&(
+            <div style={{background:"#FEF2F2",border:"1px solid #FCA5A5",borderRadius:8,padding:"8px 12px",marginBottom:12,fontSize:13,color:"var(--red)"}}>
+              ⚠️ <strong>Gelmeme Nedeni:</strong> {sel.gelmediNote}
+            </div>
+          )}
+          <div className="dg">
+            <div className="di"><div className="di-l">Telefon</div><div className="di-v">{sel.phone}</div></div>
+            <div className="di"><div className="di-l">Durum</div><div className="di-v"><StatusBadge status={sel.status} renewalDate={sel.renewalDate}/></div></div>
+            <div className="di"><div className="di-l">Kayıt Türü</div><div className="di-v">{sel.companyId?<span className="badge b-blu">{comap[sel.companyId]?.name}</span>:"Bireysel"}</div></div>
+            <div className="di"><div className="di-l">Nasıl Buldu</div><div className="di-v">{sel.howFound||"—"}</div></div>
+            <div className="di"><div className="di-l">Test Tarihi</div><div className="di-v">{fmt(sel.testDate)}</div></div>
+            <div className="di"><div className="di-l">Yenileme</div><div className="di-v" style={{color:sel.renewalDate&&daysUntil(sel.renewalDate)<0?"var(--red)":"var(--txt)"}}>{fmt(sel.renewalDate)}</div></div>
+            <div className="di"><div className="di-l">Eklenme</div><div className="di-v">{fmt(sel.createdAt)}</div></div>
+          </div>
+          {sel.notes&&<div style={{background:"var(--sur)",padding:"9px 12px",borderRadius:8,fontSize:13,color:"var(--txt2)"}}>📝 {sel.notes}</div>}
+          <hr/>
+          <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
+            {cfgData.iban&&<button className="btn btn-sm" style={{background:"#EFF6FF",color:"#1D4ED8",border:"1px solid #BFDBFE"}} onClick={()=>window.open(buildWA(sel.phone,"Ödeme bilgileri:\nIBAN: "+cfgData.iban+"\nBanka: "+(cfgData.ibanBank||"")+"\nHesap Sahibi: "+(cfgData.ibanName||"")),"_blank")}>🏦 IBAN Gönder</button>}
+            {cfgData.reviewUrl&&<button className="btn btn-sm" style={{background:"#FFF7ED",color:"#C2410C",border:"1px solid #FED7AA"}} onClick={()=>window.open(buildWA(sel.phone,"Merhaba "+sel.name+", hizmetimizden memnun kaldıysanız yorum bırakırsanız çok seviniriz 😊\n"+cfgData.reviewUrl),"_blank")}>⭐ Yorum İste</button>}
+          </div>
+          <div style={{fontSize:9.5,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:7}}>Randevu Geçmişi</div>
+          {clientAppts.length===0?<div style={{fontSize:13,color:"var(--txt3)"}}>Henüz randevu yok.</div>:
+            clientAppts.slice(0,5).map(a=>(
+              <div key={a.id} style={{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:"1px solid var(--brd)",fontSize:12.5}}>
+                <div><span style={{fontWeight:600}}>{fmt(a.date)}</span> · {fmtTime(a.date)} · {ttmap[a.testType]?.label}</div>
+                <div style={{display:"flex",gap:4}}>
+                  <span className={`badge ${a.status==="tamamlandı"?"b-grn":a.status==="gelmedi"?"b-red":"b-amb"}`}>{a.status}</span>
+                  <span className={`badge ${a.paymentStatus==="ödendi"?"b-grn":"b-red"}`}>{a.paymentStatus}</span>
+                </div>
+              </div>
+            ))}
+        </Modal>
+      )}
+
+      {/* ÖZEL MESAJ */}
+      {showCustomMsg&&sel&&(
+        <Modal title="Özel WhatsApp Mesajı" onClose={()=>setShowCustomMsg(false)} footer={
+          <><button className="btn btn-ghost" onClick={()=>setShowCustomMsg(false)}>İptal</button>
+          <button className="btn btn-wa" onClick={()=>{window.open(buildWA(sel.phone,customMsg),"_blank");setShowCustomMsg(false);}}>💬 WhatsApp'ta Gönder</button></>
+        }>
+          <div className="fg"><label className="fl">Mesaj</label>
+            <textarea className="fi fi-ta" style={{minHeight:100}} value={customMsg} onChange={e=>setCustomMsg(e.target.value)}/>
+          </div>
+          <div style={{fontSize:11,color:"var(--txt3)"}}>Gönder'e basınca WhatsApp açılacak.</div>
+        </Modal>
+      )}
+
+      {/* GELMEDİ NOT */}
+      {showGelmediNote&&(
+        <Modal title="Gelmeme Nedeni" onClose={()=>setShowGelmediNote(false)} footer={
+          <><button className="btn btn-ghost" onClick={()=>setShowGelmediNote(false)}>İptal</button>
+          <button className="btn btn-del" onClick={confirmGelmedi}>Kaydet</button></>
+        }>
+          <div className="fg">
+            <label className="fl">Neden gelmedi? (opsiyonel)</label>
+            <textarea className="fi fi-ta" placeholder="Haber vermeden gelmedi, araç arızası vb..." value={gelmediNote} onChange={e=>setGelmediNote(e.target.value)}/>
+          </div>
+        </Modal>
+      )}
+
+      {showAdd&&<ClientForm title="Yeni Müşteri" onSave={addClient} onClose={()=>setShowAdd(false)}/>}
+      {showEdit&&<ClientForm title="Müşteriyi Düzenle" onSave={saveEdit} onClose={()=>setShowEdit(false)}/>}
+    </div>
+  );
+}
+
+// ── RENEWALS PAGE ──
+function RenewalsPage({clients,testTypes,cfg,showToast}){
+  const ttmap=Object.fromEntries(testTypes.map(t=>[t.id,t]));const cfgData=cfg||DEFAULT_SETTINGS;
+  const tracked=clients.filter(c=>c.status==="teste_girdi"&&c.renewalDate);
+  const sorted=[...tracked].sort((a,b)=>new Date(a.renewalDate)-new Date(b.renewalDate));
+  const expired=sorted.filter(c=>daysUntil(c.renewalDate)<0);
+  const critical=sorted.filter(c=>{const d=daysUntil(c.renewalDate);return d!==null&&d>=0&&d<=30;});
+  const important=sorted.filter(c=>{const d=daysUntil(c.renewalDate);return d!==null&&d>30&&d<=90;});
+  const upcoming=sorted.filter(c=>{const d=daysUntil(c.renewalDate);return d!==null&&d>90&&d<=150;});
+  const Section=({title,items,color,bc})=>items.length>0&&(
+    <div style={{marginBottom:18}}>
+      <div style={{fontSize:10.5,fontWeight:700,color,textTransform:"uppercase",letterSpacing:"1px",marginBottom:8}}>{title} ({items.length})</div>
+      <div className="card"><table>
+        <thead><tr><th>Ad Soyad</th><th>Telefon</th><th>Test Türü</th><th>Test Tarihi</th><th>Yenileme</th><th>Durum</th><th>İşlem</th></tr></thead>
+        <tbody>{items.map(c=>{const days=daysUntil(c.renewalDate);return(
+          <tr key={c.id}>
+            <td style={{fontWeight:700}}>{c.name} {c.surname}</td><td style={{color:"var(--txt2)"}}>{c.phone}</td>
+            <td>{ttmap[c.testType]?<span className="badge b-teal">{ttmap[c.testType].label}</span>:"—"}</td>
+            <td style={{fontSize:12,color:"var(--txt2)"}}>{fmt(c.testDate)}</td><td style={{fontSize:12}}>{fmt(c.renewalDate)}</td>
+            <td><span className={`badge ${bc}`}>{days<0?`${Math.abs(days)} gün geçti`:`${days} gün kaldı`}</span></td>
+            <td><button className="btn btn-sm btn-wa" onClick={()=>{window.open(buildWA(c.phone,buildRenewMsg(c,cfgData)),"_blank");showToast(`WA → ${c.name}`,"ok");}}>💬 WA</button></td>
+          </tr>
+        );})}</tbody>
+      </table></div>
+    </div>
+  );
+  return(
+    <div className="content">
+      <div className="ph"><div><h2>Yenileme Takibi</h2><p>{tracked.length} kişi izleniyor</p></div></div>
+      {expired.length>0&&<div className="alert al-red">🚨 <strong>{expired.length} kişinin süresi geçmiş!</strong></div>}
+      <Section title="🔴 Süresi Geçmiş" items={expired} color="var(--red)" bc="b-red"/>
+      <Section title="🚨 Acil — 1 Ay İçinde" items={critical} color="var(--red)" bc="b-red"/>
+      <Section title="⚠ Önemli — 3 Ay İçinde" items={important} color="var(--amb)" bc="b-amb"/>
+      <Section title="🔔 Yaklaşan — 5 Ay İçinde" items={upcoming} color="var(--blu)" bc="b-blu"/>
+      {expired.length+critical.length+important.length+upcoming.length===0&&<div className="empty"><div className="empty-ico">✅</div><div className="empty-txt">Yenileme yaklaşan kimse yok</div></div>}
+    </div>
+  );
+}
+
+// ── COMPANIES PAGE ──
+function CompaniesPage({companies,setCompanies,clients,appointments,testTypes,cfg,showToast}){
+  const[sel,setSel]=useState(null);const[showAdd,setShowAdd]=useState(false);const[form,setForm]=useState({name:"",contact:"",phone:"",notes:""});
+  const sf=(k,v)=>setForm(p=>({...p,[k]:v}));const ttmap=Object.fromEntries(testTypes.map(t=>[t.id,t]));const cfgData=cfg||DEFAULT_SETTINGS;
+  const addCo=()=>{if(!form.name)return showToast("İsim zorunlu","err");setCompanies(p=>[...p,{...form,id:genId()}]);setShowAdd(false);setForm({name:"",contact:"",phone:"",notes:""});showToast("Eklendi ✓","ok");};
+  const delCo=id=>{setCompanies(p=>p.filter(c=>c.id!==id));setSel(null);showToast("Silindi","ok");};
+  const getCoC=id=>clients.filter(c=>c.companyId===id);
+  const getCoA=id=>appointments.filter(a=>a.companyId===id).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const getCoP=id=>appointments.filter(a=>a.companyId===id&&a.paymentStatus==="bekliyor").reduce((s,a)=>s+(a.price||0),0);
+  return(
+    <div className="content">
+      <div className="ph"><div><h2>Şirketler</h2><p>{companies.length} kayıtlı</p></div><button className="btn btn-p" onClick={()=>setShowAdd(true)}>+ Ekle</button></div>
+      <div className="card"><table>
+        <thead><tr><th>Şirket</th><th>Yetkili</th><th>Telefon</th><th>Müşteri</th><th>Bekleyen</th><th></th></tr></thead>
+        <tbody>{companies.length===0?<tr><td colSpan={6} style={{textAlign:"center",color:"var(--txt3)",padding:26}}>Şirket yok</td></tr>:
+          companies.map(co=>(
+            <tr key={co.id} className="row" onClick={()=>setSel(co)}>
+              <td style={{fontWeight:700}}>{co.name}</td><td style={{color:"var(--txt2)"}}>{co.contact||"—"}</td><td style={{color:"var(--txt2)"}}>{co.phone||"—"}</td>
+              <td><span className="badge b-teal">{getCoC(co.id).length}</span></td>
+              <td>{getCoP(co.id)>0?<span className="badge b-red">{getCoP(co.id).toLocaleString()}₺</span>:<span className="badge b-grn">Kapalı</span>}</td>
+              <td><button className="btn btn-sm btn-wa" onClick={e=>{e.stopPropagation();co.phone&&window.open(buildWA(co.phone,`Sayın ${co.contact||co.name}, ${cfgData.centerName}. ${cfgData.phone}`),"_blank");}}>WA</button></td>
+            </tr>
+          ))}</tbody>
+      </table></div>
+      {sel&&(
+        <Modal title={sel.name} onClose={()=>setSel(null)} footer={<><button className="btn btn-del btn-sm" onClick={()=>delCo(sel.id)}>Sil</button><button className="btn btn-ghost" onClick={()=>setSel(null)}>Kapat</button></>}>
+          <div className="dg">
+            <div className="di"><div className="di-l">Yetkili</div><div className="di-v">{sel.contact||"—"}</div></div>
+            <div className="di"><div className="di-l">Telefon</div><div className="di-v">{sel.phone||"—"}</div></div>
+            <div className="di"><div className="di-l">Müşteri</div><div className="di-v">{getCoC(sel.id).length}</div></div>
+            <div className="di"><div className="di-l">Bekleyen</div><div className="di-v" style={{color:getCoP(sel.id)>0?"var(--red)":"var(--grn)"}}>{getCoP(sel.id).toLocaleString()}₺</div></div>
+          </div>
+          {sel.notes&&<div style={{background:"var(--sur)",padding:"9px 12px",borderRadius:8,fontSize:13,color:"var(--txt2)"}}>📝 {sel.notes}</div>}
+          <hr/>
+          <div style={{fontSize:9.5,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:7}}>Son Randevular</div>
+          {getCoA(sel.id).slice(0,5).map(a=>{const c=clients.find(x=>x.id===a.clientId);return(<div key={a.id} style={{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:"1px solid var(--brd)",fontSize:12.5}}><div><span style={{fontWeight:600}}>{c?.name} {c?.surname}</span> · {fmt(a.date)}</div><div style={{display:"flex",gap:4}}><span style={{fontWeight:700,fontSize:12}}>{a.price?.toLocaleString()}₺</span><span className={`badge ${a.paymentStatus==="ödendi"?"b-grn":"b-red"}`}>{a.paymentStatus}</span></div></div>);})}
+        </Modal>
+      )}
+      {showAdd&&(
+        <Modal title="Yeni Şirket" onClose={()=>setShowAdd(false)} footer={<><button className="btn" onClick={()=>setShowAdd(false)}>İptal</button><button className="btn btn-p" onClick={addCo}>Kaydet</button></>}>
+          <div className="f2">
+            <div className="fg full"><label className="fl">Şirket Adı *</label><input className="fi" value={form.name} onChange={e=>sf("name",e.target.value)}/></div>
+            <div className="fg"><label className="fl">Yetkili</label><input className="fi" value={form.contact} onChange={e=>sf("contact",e.target.value)}/></div>
+            <div className="fg"><label className="fl">Telefon</label><input className="fi" value={form.phone} onChange={e=>sf("phone",e.target.value)}/></div>
+            <div className="fg full"><label className="fl">Not</label><textarea className="fi fi-ta" value={form.notes} onChange={e=>sf("notes",e.target.value)}/></div>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+// ── PAYMENTS PAGE ──
+function PaymentsPage({appointments,setAppointments,clients,companies,testTypes,cfg,showToast}){
+  const[tab,setTab]=useState("all");
+  const cmap=Object.fromEntries(clients.map(c=>[c.id,c]));const comap=Object.fromEntries(companies.map(c=>[c.id,c]));
+  const ttmap=Object.fromEntries(testTypes.map(t=>[t.id,t]));
+  // Sadece aktif müşterilerin randevularını göster
+  const activeClientIds=new Set(clients.map(c=>c.id));
+  const sorted=[...appointments].filter(a=>activeClientIds.has(a.clientId)).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const filtered=tab==="pending"?sorted.filter(a=>a.paymentStatus==="bekliyor"):tab==="paid"?sorted.filter(a=>a.paymentStatus==="ödendi"):sorted;
+  const totalPaid=sorted.filter(a=>a.paymentStatus==="ödendi").reduce((s,a)=>s+(a.price||0),0);
+  const totalPend=sorted.filter(a=>a.paymentStatus==="bekliyor").reduce((s,a)=>s+(a.price||0),0);
+  const n2=new Date();const thisMth=sorted.filter(a=>a.paymentStatus==="ödendi"&&new Date(a.date).getMonth()===n2.getMonth()&&new Date(a.date).getFullYear()===n2.getFullYear()).reduce((s,a)=>s+(a.price||0),0);
+  const markPaid=id=>{setAppointments(p=>p.map(a=>a.id===id?{...a,paymentStatus:"ödendi"}:a));showToast("Ödeme alındı ✓","ok");};
+  return(
+    <div className="content">
+      <div className="ph"><div><h2>Ödemeler</h2><p>{appointments.length} işlem</p></div><button className="btn btn-excel" onClick={()=>{exportCSV(sorted.map(a=>{const c=cmap[a.clientId];return{"Ad Soyad":`${c?.name||""} ${c?.surname||""}`,"Test":ttmap[a.testType]?.label||"—","Tarih":fmt(a.date),"Tutar":a.price||0,"Yöntem":a.paymentMethod,"Durum":a.paymentStatus};}),"odemeler.csv");showToast("Excel ✓","ok");}}>⬇ Excel</button></div>
+      <div className="stats" style={{gridTemplateColumns:"repeat(3,1fr)"}}>
+        <div className="stat"><div className="stat-ico">💰</div><div className="stat-val">{totalPaid.toLocaleString("tr-TR")}₺</div><div className="stat-lbl">Toplam Tahsil</div></div>
+        <div className="stat"><div className="stat-ico">📅</div><div className="stat-val">{thisMth.toLocaleString("tr-TR")}₺</div><div className="stat-lbl">Bu Ay</div></div>
+        <div className="stat"><div className="stat-ico">⏳</div><div className="stat-val" style={{color:totalPend>0?"var(--amb)":"var(--txt)"}}>{totalPend.toLocaleString("tr-TR")}₺</div><div className="stat-lbl">Bekleyen</div></div>
+      </div>
+      <div className="tabs">{[["all","Tümü"],["pending","Bekleyen",appointments.filter(a=>a.paymentStatus==="bekliyor").length],["paid","Ödendi"]].map(([k,l,cnt])=><button key={k} className={`tab ${tab===k?"on":""}`} onClick={()=>setTab(k)}>{l}{cnt>0&&<span className="tc">{cnt}</span>}</button>)}</div>
+      <div className="card"><table>
+        <thead><tr><th>Müşteri</th><th>Test Türü</th><th>Tarih</th><th>Tutar</th><th>Yöntem</th><th>Durum</th><th></th></tr></thead>
+        <tbody>{filtered.length===0?<tr><td colSpan={7} style={{textAlign:"center",color:"var(--txt3)",padding:26}}>Kayıt yok</td></tr>:
+          filtered.map(a=>{const c=cmap[a.clientId];return(
+            <tr key={a.id}><td style={{fontWeight:700}}>{c?.name} {c?.surname}</td>
+              <td>{ttmap[a.testType]?<span className="badge b-teal">{ttmap[a.testType].label}</span>:"—"}</td>
+              <td style={{fontSize:12,color:"var(--txt2)"}}>{fmt(a.date)}</td>
+              <td style={{fontWeight:800,fontFamily:"'Instrument Serif',serif",fontSize:14}}>{a.price?.toLocaleString("tr-TR")}₺</td>
+              <td><span className="badge b-gray">{a.paymentMethod}</span></td>
+              <td><span className={`badge ${a.paymentStatus==="ödendi"?"b-grn":"b-red"}`}>{a.paymentStatus}</span></td>
+              <td>{a.paymentStatus==="bekliyor"&&<button className="btn btn-sm btn-p" style={{fontSize:11}} onClick={()=>markPaid(a.id)}>Alındı ✓</button>}</td>
+            </tr>
+          );})}
+        </tbody>
+      </table></div>
+    </div>
+  );
+}
+
+// ── MESSAGES PAGE ──
+function MessagesPage({appointments,setAppointments,clients,testTypes,cfg,showToast}){
+  const[tab,setTab]=useState("reminder");const[sent,setSent]=useState({});
+  const cmap=Object.fromEntries(clients.map(c=>[c.id,c]));
+  const cfgData=cfg||DEFAULT_SETTINGS;
+  const ttmap=Object.fromEntries(testTypes.map(t=>[t.id,t]));
+  const activeClientIds=new Set(clients.map(c=>c.id));
+  const now=new Date();
+
+  // Bugünkü randevular (henüz saati gelmemiş)
+  const todayAppts=appointments.filter(a=>{
+    if(!activeClientIds.has(a.clientId))return false;
+    if(a.status!=="randevu")return false;
+    const d=new Date(a.date);
+    return isToday(a.date)&&d>now;
+  }).sort((a,b)=>new Date(a.date)-new Date(b.date));
+
+  // Yarınki randevular
+  const tmrAppts=appointments.filter(a=>{
+    if(!activeClientIds.has(a.clientId))return false;
+    return isTomorrow(a.date)&&a.status==="randevu";
+  }).sort((a,b)=>new Date(a.date)-new Date(b.date));
+
+  // Yenileme — sadece SRC/Ticari test türü
+  const adaylar=clients.filter(c=>c.status==="teste_girdi"&&c.renewalDate&&c.testType==="src");
+  const urgRen=adaylar.filter(c=>{const d=daysUntil(c.renewalDate);return d!==null&&d>=0&&d<=90;});
+  const expRen=adaylar.filter(c=>daysUntil(c.renewalDate)<0);
+
+  const buildRemMsg=(c,a)=>{
+    const dayStr=isToday(a.date)?"bugün":"yarın";
+    const konum=cfgData.mapsUrl?`
+Konum: ${cfgData.mapsUrl}`:"";
+    const tpl=cfgData.reminderTemplate||DEFAULT_SETTINGS.reminderTemplate;
+    return tpl.replace("{isim}",`${c.name} ${c.surname}`).replace("{gun}",dayStr).replace("{saat}",fmtTime(a.date)).replace("{telefon}",cfgData.phone).replace("{konum}",konum).replace("{merkez}",cfgData.centerName);
+  };
+
+  const buildRenMsg=(c)=>{
+    const tpl=cfgData.renewalTemplate||DEFAULT_SETTINGS.renewalTemplate;
+    return tpl.replace("{isim}",`${c.name} ${c.surname}`).replace("{bitis}",fmt(c.renewalDate)).replace("{telefon}",cfgData.phone).replace("{merkez}",cfgData.centerName);
+  };
+
+  const sendRem=a=>{
+    const c=cmap[a.clientId];if(!c)return;
+    window.open(buildWA(c.phone,buildRemMsg(c,a)),"_blank");
+    setAppointments(p=>p.map(x=>x.id===a.id?{...x,reminded:true}:x));
+    setSent(p=>({...p,[`r${a.id}`]:true}));
+    showToast(`Hatırlatma → ${c.name}`,"ok");
+  };
+  const sendRen=c=>{
+    window.open(buildWA(c.phone,buildRenMsg(c)),"_blank");
+    setSent(p=>({...p,[`n${c.id}`]:true}));
+    showToast(`Yenileme → ${c.name}`,"ok");
+  };
+
+  const allRemAppts=[...todayAppts,...tmrAppts];
+  const pendingRem=allRemAppts.filter(a=>!a.reminded&&!sent[`r${a.id}`]);
+
+  return(
+    <div className="content">
+      <div className="ph"><div><h2>Mesajlar</h2><p>Toplu WhatsApp</p></div></div>
+      <div style={{background:"var(--sur)",border:"1px solid var(--brd)",borderRadius:9,padding:"9px 13px",fontSize:12,marginBottom:13,color:"var(--txt2)"}}>
+        📍 <strong>{cfgData.address}</strong> · {cfgData.phone}
+      </div>
+      <div className="tabs">
+        <button className={`tab ${tab==="reminder"?"on":""}`} onClick={()=>setTab("reminder")}>
+          📅 Hatırlatma{pendingRem.length>0&&<span className="tc">{pendingRem.length}</span>}
+        </button>
+        <button className={`tab ${tab==="renewal"?"on":""}`} onClick={()=>setTab("renewal")}>
+          🔄 Yenileme{(urgRen.length+expRen.length)>0&&<span className="tc">{urgRen.length+expRen.length}</span>}
+        </button>
+      </div>
+
+      {tab==="reminder"&&(
+        allRemAppts.length===0
+          ?<div className="empty"><div className="empty-ico">📅</div><div className="empty-txt">Bugün ve yarın için bekleyen randevu yok.</div></div>
+          :(
+            <>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+                <div style={{fontSize:13,color:"var(--txt2)"}}>
+                  {todayAppts.length>0&&<span>Bugün <strong>{todayAppts.length}</strong> · </span>}
+                  {tmrAppts.length>0&&<span>Yarın <strong>{tmrAppts.length}</strong></span>}
+                </div>
+                <button className="btn btn-wa" onClick={()=>{if(!pendingRem.length)return showToast("Hepsi gönderildi","info");sendRem(pendingRem[0]);}}>💬 Sıradakini Gönder</button>
+              </div>
+              {todayAppts.length>0&&<div style={{fontSize:11,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:6}}>Bugün</div>}
+              {todayAppts.length>0&&(
+                <div className="card" style={{padding:"6px 14px",marginBottom:12}}>
+                  {todayAppts.map(a=>{const c=cmap[a.clientId];const isSent=a.reminded||sent[`r${a.id}`];return(
+                    <div key={a.id} className={`wa-item ${isSent?"wa-sent":""}`}>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:700}}>{c?.name} {c?.surname}</div>
+                        <div style={{fontSize:11,color:"var(--txt2)",marginTop:2}}>{fmtTime(a.date)} · {ttmap[a.testType]?.label}</div>
+                      </div>
+                      <div>{isSent?<span className="badge b-grn">✓ Gönderildi</span>:<button className="btn btn-sm btn-wa" onClick={()=>sendRem(a)}>💬 Gönder</button>}</div>
+                    </div>
+                  );})}
+                </div>
+              )}
+              {tmrAppts.length>0&&<div style={{fontSize:11,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:6}}>Yarın</div>}
+              {tmrAppts.length>0&&(
+                <div className="card" style={{padding:"6px 14px"}}>
+                  {tmrAppts.map(a=>{const c=cmap[a.clientId];const isSent=a.reminded||sent[`r${a.id}`];return(
+                    <div key={a.id} className={`wa-item ${isSent?"wa-sent":""}`}>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:700}}>{c?.name} {c?.surname}</div>
+                        <div style={{fontSize:11,color:"var(--txt2)",marginTop:2}}>{fmtTime(a.date)} · {ttmap[a.testType]?.label}</div>
+                      </div>
+                      <div>{isSent?<span className="badge b-grn">✓ Gönderildi</span>:<button className="btn btn-sm btn-wa" onClick={()=>sendRem(a)}>💬 Gönder</button>}</div>
+                    </div>
+                  );})}
+                </div>
+              )}
+            </>
+          )
+      )}
+
+      {tab==="renewal"&&(
+        expRen.length===0&&urgRen.length===0
+          ?<div className="empty"><div className="empty-ico">✅</div><div className="empty-txt">Acil SRC yenilemesi yok.</div></div>
+          :(
+            <>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+                <div style={{fontSize:13,color:"var(--txt2)"}}>Sadece SRC/Ticari · <strong>{expRen.length+urgRen.length}</strong> kişi</div>
+                <button className="btn btn-wa" onClick={()=>{const u=[...expRen,...urgRen].filter(c=>!sent[`n${c.id}`]);if(!u.length)return showToast("Hepsi gönderildi","info");sendRen(u[0]);}}>💬 Sıradakini Gönder</button>
+              </div>
+              <div className="card" style={{padding:"6px 14px"}}>
+                {[...expRen,...urgRen].map(c=>{const days=daysUntil(c.renewalDate);const isSent=sent[`n${c.id}`];return(
+                  <div key={c.id} className={`wa-item ${isSent?"wa-sent":""}`}>
+                    <div>
+                      <div style={{fontSize:13,fontWeight:700}}>{c.name} {c.surname}</div>
+                      <div style={{fontSize:11,color:"var(--txt2)",marginTop:2}}>{fmt(c.renewalDate)} · {days<0?`${Math.abs(days)}g geçmiş`:`${days}g kaldı`}</div>
+                    </div>
+                    <div style={{display:"flex",gap:6}}>
+                      <span className={`badge ${days<0?"b-red":"b-amb"}`}>{days<0?"Süresi Geçmiş":"Yaklaşıyor"}</span>
+                      {isSent?<span className="badge b-grn">✓</span>:<button className="btn btn-sm btn-wa" onClick={()=>sendRen(c)}>💬</button>}
+                    </div>
+                  </div>
+                );})}
+              </div>
+            </>
+          )
+      )}
+    </div>
+  );
+}
+
+// ── ANALYTICS PAGE ──
+function AnalyticsPage({clients,appointments,companies,testTypes,cfg}){
+  const[period,setPeriod]=useState("month");
+  const[reportYear,setReportYear]=useState(new Date().getFullYear());
+  const[reportMonth,setReportMonth]=useState(new Date().getMonth());
+  const[reportView,setReportView]=useState("monthly"); // monthly | yearly
+  const tt=cfg?.testTypes||testTypes;
+  const cmap=Object.fromEntries(clients.map(c=>[c.id,c]));
+
+  const periodStart=useMemo(()=>{const d=new Date();if(period==="week"){d.setDate(d.getDate()-7);}if(period==="month"){d.setMonth(d.getMonth()-1);}if(period==="3month"){d.setMonth(d.getMonth()-3);}if(period==="6month"){d.setMonth(d.getMonth()-6);}if(period==="year"){d.setFullYear(d.getFullYear()-1);}return d;},[period]);
+  const filteredAppts=useMemo(()=>appointments.filter(a=>new Date(a.date)>=periodStart),[appointments,periodStart]);
+  const paidAppts=filteredAppts.filter(a=>a.paymentStatus==="ödendi");
+  const allPaid=appointments.filter(a=>a.paymentStatus==="ödendi");
+  const byTest={};tt.forEach(t=>{byTest[t.id]=0;});paidAppts.forEach(a=>{if(a.testType)byTest[a.testType]=(byTest[a.testType]||0)+1;});
+  const testMax=Math.max(1,...Object.values(byTest));
+  const bySource={};HOW_FOUND.forEach(h=>{bySource[h]=0;});clients.forEach(c=>{if(c.howFound)bySource[c.howFound]=(bySource[c.howFound]||0)+1;});
+  const srcMax=Math.max(1,...Object.values(bySource));
+  const chartBars=useMemo(()=>{
+    if(period==="week")return Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const label=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"][d.getDay()];const rev=allPaid.filter(a=>new Date(a.date).toDateString()===d.toDateString()).reduce((s,a)=>s+(a.price||0),0);return{label,rev};});
+    if(period==="month")return Array.from({length:4},(_,i)=>{const start=new Date();start.setDate(start.getDate()-(3-i)*7-7);const end=new Date();end.setDate(end.getDate()-(3-i)*7);const rev=allPaid.filter(a=>{const ad=new Date(a.date);return ad>=start&&ad<end;}).reduce((s,a)=>s+(a.price||0),0);return{label:`H${i+1}`,rev};});
+    const months=period==="3month"?3:period==="6month"?6:12;
+    return Array.from({length:months},(_,i)=>{const d=new Date();d.setMonth(d.getMonth()-(months-1-i));const rev=allPaid.filter(a=>new Date(a.date).getMonth()===d.getMonth()&&new Date(a.date).getFullYear()===d.getFullYear()).reduce((s,a)=>s+(a.price||0),0);return{label:MONTHS_TR[d.getMonth()].slice(0,3),rev};});
+  },[period,allPaid]);
+  const revMax=Math.max(1,...chartBars.map(m=>m.rev));
+  const colors=["#0C6E72","#1A3899","#15593D","#9A5705","#52189E","#B83429"];
+  const BarChart=({title,items,max})=>(
+    <div className="card"><div className="card-head"><div className="card-ttl">{title}</div></div>
+      <div className="chart-wrap">{items.map(([lbl,val],i)=>(
+        <div key={lbl} className="bar-row">
+          <div className="bar-lbl">{lbl}</div>
+          <div className="bar-track"><div className="bar-fill" style={{width:(val/max*100)+"%",background:colors[i%colors.length],minWidth:val>0?24:0}}>{val>0&&val}</div></div>
+          <div className="bar-val">{val}</div>
+        </div>
+      ))}</div>
+    </div>
+  );
+  const periodLabel={week:"Bu Hafta",month:"Bu Ay","3month":"Son 3 Ay","6month":"Son 6 Ay",year:"Bu Yıl"};
+
+  // ── RAPOR VERİLERİ ──
+  const monthlyReport=useMemo(()=>{
+    return Array.from({length:12},(_,m)=>{
+      const appts=appointments.filter(a=>{const d=new Date(a.date);return d.getFullYear()===reportYear&&d.getMonth()===m;});
+      const paid=appts.filter(a=>a.paymentStatus==="ödendi");
+      const pending=appts.filter(a=>a.paymentStatus==="bekliyor");
+      const byMethod={Nakit:0,Kart:0,Havale:0};
+      paid.forEach(a=>{if(byMethod[a.paymentMethod]!==undefined)byMethod[a.paymentMethod]+=(a.price||0);});
+      return{month:MONTHS_TR[m],total:paid.reduce((s,a)=>s+(a.price||0),0),count:paid.length,pending:pending.reduce((s,a)=>s+(a.price||0),0),pendingCount:pending.length,nakit:byMethod["Nakit"],kart:byMethod["Kart"],havale:byMethod["Havale"]};
+    });
+  },[appointments,reportYear]);
+
+  const selectedMonthReport=useMemo(()=>{
+    const appts=appointments.filter(a=>{const d=new Date(a.date);return d.getFullYear()===reportYear&&d.getMonth()===reportMonth;});
+    const paid=appts.filter(a=>a.paymentStatus==="ödendi");
+    const rows=paid.map(a=>{const c=cmap[a.clientId];return{tarih:fmt(a.date),isim:c?`${c.name} ${c.surname}`:"—",test:tt.find(t=>t.id===a.testType)?.label||"—",tutar:a.price||0,yontem:a.paymentMethod||"—"};});
+    return rows.sort((a,b)=>a.tarih.localeCompare(b.tarih));
+  },[appointments,reportYear,reportMonth,cmap,tt]);
+
+  const yearlyTotal=monthlyReport.reduce((s,m)=>s+m.total,0);
+  const yearlyCount=monthlyReport.reduce((s,m)=>s+m.count,0);
+
+  const printReport=()=>{
+    const isYearly=reportView==="yearly";
+    const title=isYearly?`${reportYear} Yılı Gelir Raporu`:`${MONTHS_TR[reportMonth]} ${reportYear} Gelir Raporu`;
+    const centerName=cfg?.centerName||"PsikoMerkez";
+    let tableRows="";
+    if(isYearly){
+      monthlyReport.forEach(r=>{
+        tableRows+=`<tr><td>${r.month}</td><td>${r.count}</td><td>${r.nakit.toLocaleString("tr-TR")}₺</td><td>${r.kart.toLocaleString("tr-TR")}₺</td><td>${r.havale.toLocaleString("tr-TR")}₺</td><td style="font-weight:700">${r.total.toLocaleString("tr-TR")}₺</td><td style="color:#B83429">${r.pending.toLocaleString("tr-TR")}₺</td></tr>`;
+      });
+      tableRows+=`<tr style="background:#f0f0f0;font-weight:700"><td>TOPLAM</td><td>${yearlyCount}</td><td colspan="3"></td><td>${yearlyTotal.toLocaleString("tr-TR")}₺</td><td></td></tr>`;
+    } else {
+      selectedMonthReport.forEach(r=>{
+        tableRows+=`<tr><td>${r.tarih}</td><td>${r.isim}</td><td>${r.test}</td><td>${r.yontem}</td><td style="font-weight:700">${r.tutar.toLocaleString("tr-TR")}₺</td></tr>`;
+      });
+      const total=selectedMonthReport.reduce((s,r)=>s+r.tutar,0);
+      tableRows+=`<tr style="background:#f0f0f0;font-weight:700"><td colspan="4">TOPLAM</td><td>${total.toLocaleString("tr-TR")}₺</td></tr>`;
+    }
+    const headers=isYearly
+      ?`<tr><th>Ay</th><th>İşlem</th><th>Nakit</th><th>Kart</th><th>Havale</th><th>Toplam</th><th>Bekleyen</th></tr>`
+      :`<tr><th>Tarih</th><th>Müşteri</th><th>Test</th><th>Yöntem</th><th>Tutar</th></tr>`;
+    const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title><style>
+      body{font-family:Arial,sans-serif;padding:30px;color:#1a1a1a;font-size:13px}
+      h1{font-size:20px;margin-bottom:4px}
+      .sub{color:#666;font-size:12px;margin-bottom:24px}
+      table{width:100%;border-collapse:collapse}
+      th{background:#0C6E72;color:white;padding:9px 12px;text-align:left;font-size:12px}
+      td{padding:8px 12px;border-bottom:1px solid #e0e0e0}
+      tr:hover td{background:#f9f9f9}
+      .footer{margin-top:24px;font-size:11px;color:#999;border-top:1px solid #e0e0e0;padding-top:12px}
+      @media print{button{display:none}}
+    </style></head><body>
+    <button onclick="window.print()" style="margin-bottom:20px;padding:8px 16px;background:#0C6E72;color:white;border:none;border-radius:4px;cursor:pointer;font-size:13px">🖨️ PDF Olarak Kaydet / Yazdır</button>
+    <h1>${title}</h1>
+    <div class="sub">${centerName} · Oluşturma: ${new Date().toLocaleDateString("tr-TR")}</div>
+    <table><thead>${headers}</thead><tbody>${tableRows}</tbody></table>
+    <div class="footer">PsikoMerkez Yönetim Sistemi · Bu rapor otomatik oluşturulmuştur.</div>
+    </body></html>`;
+    const w=window.open("","_blank");w.document.write(html);w.document.close();
+  };
+
+  return(
+    <div className="content">
+      <div className="ph">
+        <div><h2>Analiz & Raporlar</h2><p>İstatistikler ve gelir raporları</p></div>
+        <div style={{display:"flex",gap:3,background:"var(--sur2)",padding:3,borderRadius:9}}>
+          {[["week","Haftalık"],["month","Aylık"],["3month","3 Ay"],["6month","6 Ay"],["year","Yıllık"]].map(([k,l])=>(
+            <button key={k} className={`btn btn-sm ${period===k?"btn-p":"btn-ghost"}`} onClick={()=>setPeriod(k)}>{l}</button>
+          ))}
+        </div>
+      </div>
+      <div className="stats" style={{gridTemplateColumns:"repeat(4,1fr)",marginBottom:18}}>
+        <div className="stat"><div className="stat-ico">👥</div><div className="stat-val">{clients.length}</div><div className="stat-lbl">Toplam Müşteri</div></div>
+        <div className="stat"><div className="stat-ico">✅</div><div className="stat-val">{clients.filter(c=>c.status==="teste_girdi").length}</div><div className="stat-lbl">Teste Girdi</div></div>
+        <div className="stat"><div className="stat-ico">📋</div><div className="stat-val">{paidAppts.length}</div><div className="stat-lbl">Tamamlanan ({periodLabel[period]})</div></div>
+        <div className="stat"><div className="stat-ico">💰</div><div className="stat-val" style={{fontSize:16}}>{paidAppts.reduce((s,a)=>s+(a.price||0),0).toLocaleString("tr-TR")}₺</div><div className="stat-lbl">Gelir ({periodLabel[period]})</div></div>
+      </div>
+      <div className="card" style={{marginBottom:14}}>
+        <div className="card-head"><div className="card-ttl">📈 Gelir Grafiği — {periodLabel[period]}</div></div>
+        <div className="chart-wrap">{chartBars.map(({label,rev},i)=>(
+          <div key={label} className="bar-row">
+            <div className="bar-lbl">{label}</div>
+            <div className="bar-track"><div className="bar-fill" style={{width:(rev/revMax*100)+"%",background:"var(--teal)",minWidth:rev>0?24:0}}>{rev>0&&rev.toLocaleString("tr-TR")}</div></div>
+            <div className="bar-val">{rev>0?rev.toLocaleString("tr-TR")+"₺":"—"}</div>
+          </div>
+        ))}</div>
+      </div>
+      <div className="two-col" style={{marginBottom:18}}>
+        <BarChart title="🧪 Test Türü Dağılımı" items={tt.map(t=>[t.label,byTest[t.id]||0])} max={testMax}/>
+        <BarChart title="📢 Nasıl Buldu?" items={HOW_FOUND.map(h=>[h,bySource[h]||0]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1])} max={srcMax}/>
+      </div>
+
+      {/* GELİR RAPORU */}
+      <div className="card" style={{padding:22}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16,flexWrap:"wrap",gap:10}}>
+          <div style={{fontSize:10,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1.2px"}}>📄 Gelir Raporu</div>
+          <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+            <div style={{display:"flex",gap:3,background:"var(--sur2)",padding:3,borderRadius:8}}>
+              <button className={`btn btn-sm ${reportView==="monthly"?"btn-p":"btn-ghost"}`} onClick={()=>setReportView("monthly")}>Aylık</button>
+              <button className={`btn btn-sm ${reportView==="yearly"?"btn-p":"btn-ghost"}`} onClick={()=>setReportView("yearly")}>Yıllık</button>
+            </div>
+            <select className="fi fi-sel" style={{padding:"5px 10px",fontSize:12}} value={reportYear} onChange={e=>setReportYear(parseInt(e.target.value))}>
+              {[2023,2024,2025,2026,2027].map(y=><option key={y} value={y}>{y}</option>)}
+            </select>
+            {reportView==="monthly"&&(
+              <select className="fi fi-sel" style={{padding:"5px 10px",fontSize:12}} value={reportMonth} onChange={e=>setReportMonth(parseInt(e.target.value))}>
+                {MONTHS_TR.map((m,i)=><option key={i} value={i}>{m}</option>)}
+              </select>
+            )}
+            <button className="btn btn-sm btn-p" onClick={printReport}>🖨️ PDF İndir</button>
+          </div>
+        </div>
+
+        {reportView==="yearly"?(
+          <table>
+            <thead><tr><th>Ay</th><th>İşlem</th><th>Nakit</th><th>Kart</th><th>Havale</th><th>Toplam</th><th>Bekleyen</th></tr></thead>
+            <tbody>
+              {monthlyReport.map(r=>(
+                <tr key={r.month} style={{cursor:"pointer"}} onClick={()=>{setReportMonth(MONTHS_TR.indexOf(r.month));setReportView("monthly");}}>
+                  <td style={{fontWeight:600}}>{r.month}</td>
+                  <td style={{color:"var(--txt2)"}}>{r.count}</td>
+                  <td>{r.nakit>0?r.nakit.toLocaleString("tr-TR")+"₺":"—"}</td>
+                  <td>{r.kart>0?r.kart.toLocaleString("tr-TR")+"₺":"—"}</td>
+                  <td>{r.havale>0?r.havale.toLocaleString("tr-TR")+"₺":"—"}</td>
+                  <td style={{fontWeight:700,color:"var(--teal)"}}>{r.total>0?r.total.toLocaleString("tr-TR")+"₺":"—"}</td>
+                  <td style={{color:r.pending>0?"var(--amb)":"var(--txt3)"}}>{r.pending>0?r.pending.toLocaleString("tr-TR")+"₺":"—"}</td>
+                </tr>
+              ))}
+              <tr style={{background:"var(--sur2)",fontWeight:700}}>
+                <td>TOPLAM</td><td>{yearlyCount}</td><td colSpan={3}></td>
+                <td style={{color:"var(--teal)"}}>{yearlyTotal.toLocaleString("tr-TR")}₺</td><td></td>
+              </tr>
+            </tbody>
+          </table>
+        ):(
+          selectedMonthReport.length===0
+            ?<div style={{textAlign:"center",padding:"28px 0",color:"var(--txt3)"}}>Bu ay ödeme kaydı yok.</div>
+            :<table>
+              <thead><tr><th>Tarih</th><th>Müşteri</th><th>Test</th><th>Yöntem</th><th>Tutar</th></tr></thead>
+              <tbody>
+                {selectedMonthReport.map((r,i)=>(
+                  <tr key={i}>
+                    <td style={{color:"var(--txt2)",fontSize:12}}>{r.tarih}</td>
+                    <td style={{fontWeight:600}}>{r.isim}</td>
+                    <td><span className="badge b-teal">{r.test}</span></td>
+                    <td><span className="badge b-gray">{r.yontem}</span></td>
+                    <td style={{fontWeight:700}}>{r.tutar.toLocaleString("tr-TR")}₺</td>
+                  </tr>
+                ))}
+                <tr style={{background:"var(--sur2)",fontWeight:700}}>
+                  <td colSpan={4}>TOPLAM</td>
+                  <td style={{color:"var(--teal)"}}>{selectedMonthReport.reduce((s,r)=>s+r.tutar,0).toLocaleString("tr-TR")}₺</td>
+                </tr>
+              </tbody>
+            </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+// ── TRASH PAGE ──
+function TrashPage({trash,setTrash,setClients,showToast}){
+  const restore=item=>{setClients(p=>[...p,{...item,deletedAt:undefined}]);setTrash(p=>p.filter(x=>x.id!==item.id));showToast(`${item.name} geri yüklendi ✓`,"ok");};
+  const perma=id=>{setTrash(p=>p.filter(x=>x.id!==id));showToast("Kalıcı silindi","ok");};
+  return(
+    <div className="content">
+      <div className="ph"><div><h2>🗑 Çöp Kutusu</h2><p>{trash.length} kayıt</p></div>{trash.length>0&&<button className="btn btn-del" onClick={()=>{setTrash([]);showToast("Boşaltıldı","ok");}}>Hepsini Sil</button>}</div>
+      {trash.length===0?<div className="empty"><div className="empty-ico">🗑</div><div className="empty-txt">Çöp kutusu boş</div></div>:(
+        <div className="card"><table>
+          <thead><tr><th>Ad Soyad</th><th>Telefon</th><th>Silinme</th><th>Durum</th><th></th></tr></thead>
+          <tbody>{trash.map(item=>(
+            <tr key={item.id}>
+              <td style={{fontWeight:700}}>{item.name} {item.surname}</td>
+              <td style={{color:"var(--txt2)"}}>{item.phone}</td>
+              <td style={{color:"var(--txt3)",fontSize:12}}>{fmt(item.deletedAt)}</td>
+              <td><StatusBadge status={item.status} renewalDate={item.renewalDate}/></td>
+              <td>
+                <button className="btn btn-sm btn-undo" style={{marginRight:4}} onClick={()=>restore(item)}>↩ Geri Yükle</button>
+                <button className="btn btn-sm btn-del" onClick={()=>perma(item.id)}>Kalıcı Sil</button>
+              </td>
+            </tr>
+          ))}</tbody>
+        </table></div>
+      )}
+    </div>
+  );
+}
+
+// ── SETTINGS PAGE ──
+// ── PROSPECT PAGE ──
+function ProspectPage({cfg,showToast}){
+  const[query,setQuery]=React.useState("");
+  const[radius,setRadius]=React.useState(5000);
+  const[results,setResults]=React.useState([]);
+  const[loading,setLoading]=React.useState(false);
+  const[notes,setNotes]=React.useState(function(){try{return JSON.parse(localStorage.getItem("pm_prospect_notes")||"{}");}catch(e){return{};}});
+  const[contacted,setContacted]=React.useState(function(){try{return JSON.parse(localStorage.getItem("pm_prospect_contacted")||"{}");}catch(e){return{};}});
+  const[editNote,setEditNote]=React.useState(null);
+  const[selFirm,setSelFirm]=React.useState(null);
+  const[userLat,setUserLat]=React.useState(null);
+  const[userLng,setUserLng]=React.useState(null);
+  const[locErr,setLocErr]=React.useState("");
+  const[filterType,setFilterType]=React.useState("all");
+  const cfgName=(cfg&&cfg.centerName)||"";
+  const cfgPhone=(cfg&&cfg.phone)||"";
+
+  const saveNotes=function(n){setNotes(n);localStorage.setItem("pm_prospect_notes",JSON.stringify(n));};
+  const saveContacted=function(c){setContacted(c);localStorage.setItem("pm_prospect_contacted",JSON.stringify(c));};
+
+  const getLocation=function(){
+    if(!navigator.geolocation)return setLocErr("Konum desteklenmiyor.");
+    setLocErr("");
+    navigator.geolocation.getCurrentPosition(
+      function(p){setUserLat(p.coords.latitude);setUserLng(p.coords.longitude);showToast("Konum alındı ✓","ok");},
+      function(){setLocErr("Konum izni reddedildi.");}
+    );
+  };
+
+  const dist=function(lat1,lon1,lat2,lon2){
+    var R=6371000,dLat=(lat2-lat1)*Math.PI/180,dLon=(lon2-lon1)*Math.PI/180;
+    var sl=Math.sin(dLat/2),sd=Math.sin(dLon/2);
+    var a=sl*sl+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*sd*sd;
+    return Math.round(R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
+  };
+
+  const search=function(){
+    if(!userLat||!userLng)return showToast("Önce konumunuzu alın","err");
+    setLoading(true);setResults([]);
+    var tags=['["amenity"="taxi"]','["office"="logistics"]','["office"="transport"]','["shop"="car_rental"]','["amenity"="fuel"]["hgv"="yes"]','["company"="transport"]'];
+    var union=tags.map(function(t){return "node"+t+"(around:"+radius+","+userLat+","+userLng+");way"+t+"(around:"+radius+","+userLat+","+userLng+");";}).join("");
+    var q="[out:json][timeout:25];("+union+");out center tags;";
+    fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q)})
+      .then(function(r){if(!r.ok)throw new Error("Bağlantı hatası");return r.json();})
+      .then(function(d){
+        var all=(d.elements||[]).filter(function(e){return e.tags&&e.tags.name;}).map(function(e){
+          var lat=e.lat||(e.center?e.center.lat:null);
+          var lng=e.lon||(e.center?e.center.lon:null);
+          return {
+            id:"osm_"+e.id,name:e.tags.name,
+            address:(e.tags["addr:street"]?e.tags["addr:street"]+(e.tags["addr:city"]?", "+e.tags["addr:city"]:""):""),
+            phone:e.tags.phone||(e.tags["contact:phone"]||""),
+            lat:lat,lng:lng,
+            mapsUrl:"https://www.google.com/maps?q="+lat+","+lng,
+          };
+        }).filter(function(r){return r.lat&&r.lng;})
+          .map(function(r){return Object.assign({},r,{distance:dist(userLat,userLng,r.lat,r.lng)});})
+          .sort(function(a,b){return a.distance-b.distance;});
+        setResults(all);
+        showToast(all.length+" firma bulundu","ok");
+        setLoading(false);
+      })
+      .catch(function(e){showToast("Hata: "+e.message,"err");setLoading(false);});
+  };
+
+  var toggleContacted=function(id){var c=Object.assign({},contacted);c[id]=!c[id];saveContacted(c);};
+  var saveNote=function(id,text){var n=Object.assign({},notes);n[id]=text;saveNotes(n);setEditNote(null);showToast("Not kaydedildi ✓","ok");};
+  var fmtDist=function(m){return m>=1000?((m/1000).toFixed(1)+" km"):(m+" m");};
+  var visible=results.filter(function(r){
+    if(filterType==="done")return contacted[r.id];
+    if(filterType==="pending")return !contacted[r.id];
+    return true;
+  });
+
+  return(
+    <div className="content">
+      <div className="ph"><div><h2>🎯 Müşteri Bul</h2><p>Yakın çevredeki ticari araç firmaları (OpenStreetMap)</p></div></div>
+
+      <div className="card" style={{padding:18,marginBottom:14}}>
+        <div style={{display:"flex",gap:10,flexWrap:"wrap",alignItems:"flex-end"}}>
+          <div className="fg" style={{flex:"1 1 180px",marginBottom:0}}>
+            <label className="fl">Arama yarıçapı</label>
+            <select className="fi fi-sel" value={radius} onChange={function(e){setRadius(parseInt(e.target.value));}}>
+              <option value={2000}>2 km</option>
+              <option value={5000}>5 km</option>
+              <option value={10000}>10 km</option>
+              <option value={20000}>20 km</option>
+            </select>
+          </div>
+          <div style={{display:"flex",gap:8,paddingBottom:2}}>
+            {!userLat
+              ?<button className="btn btn-ghost" onClick={getLocation}>📍 Konum Al</button>
+              :<span style={{fontSize:12,color:"var(--grn)",padding:"0 6px",alignSelf:"center"}}>✓ Konum alındı</span>
+            }
+            <button className="btn btn-p" onClick={search} disabled={loading||!userLat}>
+              {loading?"⏳ Aranıyor...":"🔍 Ara"}
+            </button>
+          </div>
+        </div>
+        {locErr&&<div style={{fontSize:12,color:"var(--red)",marginTop:8}}>{locErr}</div>}
+      </div>
+
+      {results.length>0&&(
+        <div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10,flexWrap:"wrap",gap:8}}>
+            <span style={{fontSize:13,color:"var(--txt2)"}}><strong>{results.length}</strong> firma · <span style={{color:"var(--grn)"}}>{results.filter(function(r){return contacted[r.id];}).length} görüşüldü</span></span>
+            <div style={{display:"flex",gap:5}}>
+              <button className={"btn btn-sm "+(filterType==="all"?"btn-p":"btn-ghost")} onClick={function(){setFilterType("all");}}>Tümü</button>
+              <button className={"btn btn-sm "+(filterType==="pending"?"btn-p":"btn-ghost")} onClick={function(){setFilterType("pending");}}>Görüşülmedi</button>
+              <button className={"btn btn-sm "+(filterType==="done"?"btn-p":"btn-ghost")} onClick={function(){setFilterType("done");}}>Görüşüldü</button>
+            </div>
+          </div>
+          <div className="card" style={{padding:"4px 0"}}>
+            {visible.map(function(r){
+              var isC=contacted[r.id];
+              var note=notes[r.id];
+              var msg="Merhaba, "+r.name+" firmasına psikoteknik test hizmetimizi sunmak istiyoruz. Ticari araç sürücüleriniz için SRC belgesi ve psikoteknik test işlemlerini "+cfgName+" merkezimizde yapabilirsiniz. Bilgi: "+cfgPhone;
+              return(
+                <div key={r.id} style={{padding:"11px 15px",borderBottom:"1px solid var(--brd)",display:"flex",gap:10,alignItems:"flex-start",background:isC?"#F0FDF4":""}}>
+                  <div style={{flex:1,minWidth:0,cursor:"pointer"}} onClick={function(){setSelFirm(r);}}>
+                    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}>
+                      <span style={{fontWeight:700,fontSize:14}}>{r.name}</span>
+                      {isC&&<span className="badge b-grn" style={{fontSize:10}}>✓ Görüşüldü</span>}
+                    </div>
+                    {r.address&&<div style={{fontSize:12,color:"var(--txt2)",marginBottom:2}}>📍 {r.address} · <strong>{fmtDist(r.distance)}</strong></div>}
+                    {!r.address&&<div style={{fontSize:12,color:"var(--txt2)",marginBottom:2}}>📍 {fmtDist(r.distance)}</div>}
+                    {r.phone&&<div style={{fontSize:12,color:"var(--teal)"}}>📞 {r.phone}</div>}
+                    {note&&<div style={{fontSize:11,color:"var(--txt3)",marginTop:3,background:"var(--sur)",padding:"2px 7px",borderRadius:5}}>📝 {note}</div>}
+                  </div>
+                  <div style={{display:"flex",flexDirection:"column",gap:4,flexShrink:0}}>
+                    <button className={"btn btn-sm "+(isC?"btn-undo":"btn-p")} style={{fontSize:11,minWidth:85}} onClick={function(){toggleContacted(r.id);}}>{isC?"✗ Geri Al":"✓ Görüşüldü"}</button>
+                    <button className="btn btn-sm btn-ghost" style={{fontSize:11}} onClick={function(){setEditNote({id:r.id,text:notes[r.id]||""});}}>📝 Not</button>
+                    <button className="btn btn-sm btn-ghost" style={{fontSize:11}} onClick={function(){window.open(r.mapsUrl,"_blank");}}>🗺 Harita</button>
+                    {r.phone&&<button className="btn btn-sm btn-wa" style={{fontSize:11}} onClick={function(){window.open(buildWA(r.phone,msg),"_blank");}}>💬 WA</button>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {!userLat&&<div className="empty"><div className="empty-ico">📍</div><div className="empty-txt">Önce "Konum Al" butonuna basın.</div></div>}
+      {userLat&&results.length===0&&!loading&&<div className="empty"><div className="empty-ico">🎯</div><div className="empty-txt">"Ara" butonuna basın.</div></div>}
+
+      {editNote&&(
+        <Modal title="Firma Notu" onClose={function(){setEditNote(null);}} footer={
+          <React.Fragment>
+            <button className="btn btn-ghost" onClick={function(){setEditNote(null);}}>İptal</button>
+            <button className="btn btn-p" onClick={function(){saveNote(editNote.id,editNote.text);}}>Kaydet</button>
+          </React.Fragment>
+        }>
+          <textarea className="fi fi-ta" style={{minHeight:80}} placeholder="Görüşme tarihi, ilgi durumu..." value={editNote.text} onChange={function(e){setEditNote(function(p){return Object.assign({},p,{text:e.target.value});});}}/>
+        </Modal>
+      )}
+
+      {selFirm&&(
+        <Modal title={selFirm.name} onClose={function(){setSelFirm(null);}} footer={
+          <React.Fragment>
+            <button className="btn btn-ghost" onClick={function(){setSelFirm(null);}}>Kapat</button>
+            <button className="btn btn-ghost" onClick={function(){window.open("https://www.google.com/maps/dir/?api=1&destination="+selFirm.lat+","+selFirm.lng,"_blank");}}>🧭 Yol Tarifi</button>
+            <button className="btn btn-p" onClick={function(){window.open(selFirm.mapsUrl,"_blank");}}>🗺 Haritada Gör</button>
+          </React.Fragment>
+        }>
+          <div className="dg">
+            {selFirm.address&&<div className="di"><div className="di-l">Adres</div><div className="di-v">{selFirm.address}</div></div>}
+            <div className="di"><div className="di-l">Mesafe</div><div className="di-v">{fmtDist(selFirm.distance)}</div></div>
+            {selFirm.phone&&<div className="di"><div className="di-l">Telefon</div><div className="di-v" style={{color:"var(--teal)"}}>{selFirm.phone}</div></div>}
+            <div className="di"><div className="di-l">Durum</div><div className="di-v">{contacted[selFirm.id]?<span className="badge b-grn">✓ Görüşüldü</span>:<span className="badge b-gray">Görüşülmedi</span>}</div></div>
+          </div>
+          <div style={{display:"flex",gap:7,marginTop:12,flexWrap:"wrap"}}>
+            <button className={"btn btn-sm "+(contacted[selFirm.id]?"btn-undo":"btn-p")} onClick={function(){toggleContacted(selFirm.id);}}>{contacted[selFirm.id]?"✗ Görüşülmedi":"✓ Görüşüldü"}</button>
+            <button className="btn btn-sm btn-ghost" onClick={function(){var f=selFirm;setSelFirm(null);setEditNote({id:f.id,text:notes[f.id]||""});}}>📝 Not Düzenle</button>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+
+function SettingsPage({cfg,setCfg,showToast}){
+  const cfgData=cfg||DEFAULT_SETTINGS;
+  const[form,setForm]=useState({...DEFAULT_SETTINGS,...cfgData});
+  const[prices,setPrices]=useState(Object.fromEntries((cfgData.testTypes||DEFAULT_TEST_TYPES).map(t=>[t.id,t.price])));
+  const sf=(k,v)=>setForm(p=>({...p,[k]:v}));
+  const save=()=>{
+    const updatedTypes=(cfgData.testTypes||DEFAULT_TEST_TYPES).map(t=>({...t,price:parseInt(prices[t.id])||t.price}));
+    setCfg({...form,testTypes:updatedTypes});
+    showToast("Ayarlar kaydedildi ✓","ok");
+  };
+  const HINT="Kullanılabilir değişkenler: {isim} {gun} {saat} {telefon} {konum} {merkez} {bitis}";
+  return(
+    <div className="content" style={{maxWidth:680}}>
+      <div className="ph"><div><h2>Ayarlar</h2><p>Merkez bilgileri</p></div></div>
+
+      {/* MERKEZ BİLGİLERİ */}
+      <div className="card" style={{padding:22,marginBottom:14}}>
+        <div style={{fontSize:10,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1.2px",marginBottom:13}}>Merkez Bilgileri</div>
+        <div className="f2">
+          <div className="fg full"><label className="fl">Merkez Adı</label><input className="fi" value={form.centerName} onChange={e=>sf("centerName",e.target.value)}/></div>
+          <div className="fg full"><label className="fl">Psikolog</label><input className="fi" value={form.psychologist} onChange={e=>sf("psychologist",e.target.value)}/></div>
+          <div className="fg full"><label className="fl">Adres</label><textarea className="fi fi-ta" style={{minHeight:50}} value={form.address} onChange={e=>sf("address",e.target.value)}/></div>
+          <div className="fg"><label className="fl">Telefon</label><input className="fi" value={form.phone} onChange={e=>sf("phone",e.target.value)}/></div>
+          <div className="fg full">
+            <label className="fl">Google Maps Linki</label>
+            <input className="fi" value={form.mapsUrl||""} onChange={e=>sf("mapsUrl",e.target.value)} placeholder="https://maps.google.com/..."/>
+            <div style={{fontSize:11,color:"var(--txt3)",marginTop:4}}>Mesajlarda {"{konum}"} ile gönderilir. Boş bırakılırsa eklenmez.</div>
+          </div>
+          <div className="fg full">
+            <label className="fl">Google Yorum Linki</label>
+            <input className="fi" value={form.reviewUrl||""} onChange={e=>sf("reviewUrl",e.target.value)} placeholder="https://g.page/r/..."/>
+            <div style={{fontSize:11,color:"var(--txt3)",marginTop:4}}>Google Haritalar → Yerinizi yönetin → Yorum al linkini yapıştırın.</div>
+            {form.mapsUrl&&<button className="btn btn-sm btn-wa" style={{marginTop:6}} onClick={()=>window.open(buildWA("","Merkezimizin konumu: "+form.mapsUrl),"_blank")}>💬 Test Gönder</button>}
+          </div>
+        </div>
+      </div>
+
+      {/* ÇALIŞMA SAATLERİ */}
+      <div className="card" style={{padding:22,marginBottom:14}}>
+        <div style={{fontSize:10,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1.2px",marginBottom:13}}>Çalışma Saatleri & Randevu Süresi</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:11}}>
+          <div className="fg"><label className="fl">Açılış</label><input className="fi" type="time" value={form.workStart} onChange={e=>sf("workStart",e.target.value)}/></div>
+          <div className="fg"><label className="fl">Kapanış</label><input className="fi" type="time" value={form.workEnd} onChange={e=>sf("workEnd",e.target.value)}/></div>
+          <div className="fg"><label className="fl">Randevu Süresi</label>
+            <select className="fi fi-sel" value={form.slotMinutes} onChange={e=>sf("slotMinutes",parseInt(e.target.value))}>
+              <option value={30}>30 dk</option><option value={45}>45 dk</option><option value={60}>1 saat</option><option value={90}>1.5 saat</option><option value={120}>2 saat</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* CİHAZ KAPASİTESİ */}
+      <div className="card" style={{padding:22,marginBottom:14}}>
+        <div style={{fontSize:10,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1.2px",marginBottom:13}}>Cihaz Kapasitesi</div>
+        <div style={{display:"flex",gap:10}}>
+          {[1,2,3].map(n=>(
+            <div key={n} onClick={()=>sf("deviceCount",n)} style={{flex:1,border:`2px solid ${(form.deviceCount||1)===n?"var(--teal)":"var(--brd2)"}`,borderRadius:12,padding:"14px 10px",textAlign:"center",cursor:"pointer",background:(form.deviceCount||1)===n?"var(--teal-l)":"var(--white)",transition:"all .15s"}}>
+              <div style={{fontSize:22,marginBottom:4}}>{"🖥️".repeat(n)}</div>
+              <div style={{fontFamily:"'Instrument Serif',serif",fontSize:20,color:(form.deviceCount||1)===n?"var(--teal)":"var(--txt)"}}>{n}</div>
+              <div style={{fontSize:10,color:"var(--txt3)",marginTop:3}}>Aynı anda {n} randevu</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* IBAN */}
+      <div className="card" style={{padding:22,marginBottom:14}}>
+        <div style={{fontSize:10,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1.2px",marginBottom:4}}>IBAN Bilgileri</div>
+        <div style={{fontSize:11,color:"var(--txt3)",marginBottom:13}}>Ödeme mesajlarında kullanılır.</div>
+        <div style={{background:"#FFF7ED",border:"1px solid #FED7AA",borderRadius:8,padding:"8px 12px",marginBottom:12,fontSize:12,color:"#92400E"}}>
+          ⚠️ IBAN bilgilerinizi dikkatlice kontrol edin. Yanlış IBAN müşterilere iletilirse ödeme sorununa yol açar.
+        </div>
+        <div className="f2">
+          <div className="fg full"><label className="fl">IBAN</label><input className="fi" value={form.iban||""} onChange={e=>sf("iban",e.target.value)} placeholder="TR00 0000 0000 0000 0000 0000 00"/></div>
+          <div className="fg"><label className="fl">Banka</label><input className="fi" value={form.ibanBank||""} onChange={e=>sf("ibanBank",e.target.value)} placeholder="Ziraat Bankası"/></div>
+          <div className="fg"><label className="fl">Hesap Sahibi</label><input className="fi" value={form.ibanName||""} onChange={e=>sf("ibanName",e.target.value)} placeholder="Ad Soyad"/></div>
+        </div>
+      </div>
+
+      {/* MESAJ ŞABLONLARI */}
+      <div className="card" style={{padding:22,marginBottom:14}}>
+        <div style={{fontSize:10,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1.2px",marginBottom:4}}>Mesaj Şablonları</div>
+        <div style={{fontSize:11,color:"var(--txt3)",marginBottom:13}}>{HINT}</div>
+        <div className="fg" style={{marginBottom:12}}>
+          <label className="fl">📅 Hatırlatma Mesajı</label>
+          <textarea className="fi fi-ta" style={{minHeight:80}} value={form.reminderTemplate||DEFAULT_SETTINGS.reminderTemplate} onChange={e=>sf("reminderTemplate",e.target.value)}/>
+        </div>
+        <div className="fg">
+          <label className="fl">🔄 Yenileme Mesajı</label>
+          <textarea className="fi fi-ta" style={{minHeight:80}} value={form.renewalTemplate||DEFAULT_SETTINGS.renewalTemplate} onChange={e=>sf("renewalTemplate",e.target.value)}/>
+        </div>
+        <button className="btn btn-sm btn-ghost" style={{marginTop:8}} onClick={()=>{sf("reminderTemplate",DEFAULT_SETTINGS.reminderTemplate);sf("renewalTemplate",DEFAULT_SETTINGS.renewalTemplate);showToast("Şablonlar sıfırlandı","ok");}}>↩ Varsayılana Sıfırla</button>
+      </div>
+
+      {/* FİYATLAR */}
+      <div className="card" style={{padding:22,marginBottom:14}}>
+        <div style={{fontSize:10,fontWeight:700,color:"var(--txt3)",textTransform:"uppercase",letterSpacing:"1.2px",marginBottom:13}}>Test Türü Fiyatları</div>
+        {(cfgData.testTypes||DEFAULT_TEST_TYPES).map(t=>(
+          <div key={t.id} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",background:"var(--sur)",borderRadius:9,marginBottom:6}}>
+            <div><div style={{fontSize:13,fontWeight:600}}>{t.label}</div><div style={{fontSize:11,color:"var(--txt2)"}}>{t.desc}</div></div>
+            <div style={{display:"flex",alignItems:"center",gap:7}}>
+              <input className="fi" type="number" style={{width:90,textAlign:"right"}} value={prices[t.id]} onChange={e=>setPrices(p=>({...p,[t.id]:e.target.value}))}/>
+              <span style={{fontSize:13,fontWeight:600,color:"var(--txt2)"}}>₺</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button className="btn btn-p" style={{width:"100%",padding:13,fontSize:14}} onClick={save}>💾 Tüm Ayarları Kaydet</button>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// LANDING PAGE
+// ══════════════════════════════════════════════════
+function LandingPage({onGoToLogin}){
+  const[faq,setFaq]=useState(null);
+  const faqs=[
+    ["Verilerim güvende mi?","Tüm veriler tarayıcınızda (localStorage) saklanır. Hiçbir sunucuya aktarılmaz."],
+    ["Kaç merkez için kullanabilirsiniz?","Pilot sürümde tek merkez. Kurumsal sürümde sınırsız merkez desteği sunuyoruz."],
+    ["WhatsApp entegrasyonu nasıl çalışıyor?","Sistem otomatik mesaj taslağı oluşturur, WhatsApp Web'i açar. Siz sadece 'Gönder'e tıklarsınız."],
+    ["Yenileme takibi ne zaman uyarı verir?","Belge süresine 150, 90, 30 gün kala — her adımda renk kodlu uyarı ve WA butonu aktif olur."],
+    ["Mobil de çalışıyor mu?","Evet, responsive tasarım. Tabletlerde en iyi deneyim için optimize edilmiştir."],
+  ];
+  return(
+    <div>
+      {/* NAV */}
+      <nav className="nav">
+        <div className="nav-logo">
+          <div className="nav-brand">PsikoMerkez</div>
+          <div className="nav-badge">Beta</div>
+        </div>
+        <div className="nav-cta">
+          <button className="btn-nav-ghost" onClick={onGoToLogin}>Giriş Yap</button>
+          <button className="btn-nav-p" onClick={onGoToLogin}>Demo Dene →</button>
+        </div>
+      </nav>
+
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-bg"/>
+        <div className="hero-chip"><div className="hero-chip-dot"/>&nbsp;Psikoteknik Merkezleri için Tasarlandı</div>
+        <h1 className="hero-title">
+          Merkezinizi yönetin,<br/><em>randevularınızı kaçırmayın</em>
+        </h1>
+        <p className="hero-sub">
+          Sürücü psikoteknik merkezleri için tam kapsamlı yönetim sistemi. Randevu, yenileme takibi, WhatsApp hatırlatma, ödeme — hepsi tek panelde.
+        </p>
+        <div className="hero-acts">
+          <button className="btn-hero-p" onClick={onGoToLogin}>Ücretsiz Dene — Demo Hesap</button>
+          <button className="btn-hero-ghost" onClick={()=>document.getElementById("features").scrollIntoView({behavior:"smooth"})}>Özellikleri Gör</button>
+        </div>
+        <div className="hero-note">Kredi kartı gerekmez · Kurulum yok · Tarayıcıda çalışır</div>
+      </section>
+
+      {/* TICKER */}
+      <div className="ticker">
+        <div className="ticker-inner">
+          {[...Array(2)].map((_,i)=>(
+            <span key={i} style={{display:"inline-flex"}}>
+              {["📅 Akıllı Randevu","🔄 Yenileme Takibi","💬 WhatsApp Hatırlatma","💰 Ödeme Yönetimi","📊 Analiz & Raporlar","🏢 Şirket Portalı","🔴 Gelmeyenler","✅ Teste Girdi Akışı"].map((item,j)=>(
+                <span key={j} className="ticker-item">{item}<span className="ticker-dot"/></span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* FEATURES */}
+      <section id="features" className="section" style={{background:undefined}}>
+        <div style={{maxWidth:1100,margin:"0 auto"}}>
+          <div style={{maxWidth:540}}>
+            <div className="section-chip">Özellikler</div>
+            <h2 className="section-title">Psikoteknik merkezine özel her şey</h2>
+            <p className="section-sub">Genel takvim uygulamalarının aksine, psikoteknik iş akışına göre tasarlandı.</p>
+          </div>
+          <div className="features-grid">
+            {[
+              ["📅","Akıllı Randevu Sistemi","Günlük program, aylık takvim görünümü. Cihaz kapasitesi takibi — aynı saatte kaç kişi alınabilir, anlık görürsünüz."],
+              ["🔄","Yenileme Takibi","Belge süresi dolan adayları 5 ay öncesinden takip edin. 150 → 90 → 30 gün uyarı sistemi, renk kodlu öncelik sıralaması."],
+              ["💬","WhatsApp Entegrasyonu","Randevu hatırlatma ve yenileme mesajlarını tek tıkla gönderin. Mesajlar otomatik kişiselleşir."],
+              ["💰","Ödeme Takibi","Nakit, kart, havale. Bekleyen ödemeleri takip edin, Excel'e aktarın."],
+              ["🏢","Şirket Portalı","Nakliyat şirketleri, filolar için toplu müşteri yönetimi. Şirket bazlı randevu ve ödeme takibi."],
+              ["📊","Gelişmiş Analiz","Haftalık/aylık/yıllık gelir grafikleri, test türü dağılımı, nasıl buldu analizi."],
+            ].map(([ico,title,desc])=>(
+              <div key={title} className="feat-card">
+                <div className="feat-ico">{ico}</div>
+                <div className="feat-title">{title}</div>
+                <div className="feat-desc">{desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PREVIEW */}
+      <section className="section" style={{background:var_sur,paddingTop:0}}>
+        <div style={{maxWidth:1000,margin:"0 auto"}}>
+          <div style={{textAlign:"center",marginBottom:10}}>
+            <div className="section-chip">Panel Önizlemesi</div>
+            <h2 className="section-title" style={{margin:"0 auto"}}>Gerçek uygulama, gerçek veri</h2>
+          </div>
+          <div className="preview-wrap">
+            <div className="preview-frame">
+              <div className="preview-topbar">
+                <div className="preview-dot" style={{background:"#FC615D"}}/>
+                <div className="preview-dot" style={{background:"#FDBC40"}}/>
+                <div className="preview-dot" style={{background:"#34C749"}}/>
+                <div className="preview-url">panel.psikomerkez.com</div>
+              </div>
+              <div className="preview-content" style={{display:"flex",gap:10}}>
+                <div className="mock-sidebar">
+                  {[["◉","Genel Bakış",true],["📅","Randevular",false],["👥","Müşteriler",false],["🔄","Yenileme",false],["💸","Ödemeler",false],["📊","Analiz",false]].map(([ico,lbl,on])=>(
+                    <div key={lbl} className={`mock-nav-item ${on?"on":""}`}>{ico} {lbl}</div>
+                  ))}
+                </div>
+                <div style={{flex:1}}>
+                  <div className="mock-stat-row">
+                    <div className="mock-stat"><div className="mock-stat-val" style={{color:"var(--teal)"}}>3.200₺</div><div className="mock-stat-lbl">Bugünkü Gelir</div></div>
+                    <div className="mock-stat"><div className="mock-stat-val">6</div><div className="mock-stat-lbl">Bugün Randevu</div></div>
+                    <div className="mock-stat"><div className="mock-stat-val" style={{color:"var(--amb)"}}>4</div><div className="mock-stat-lbl">Yenileme Yaklaşıyor</div></div>
+                    <div className="mock-stat"><div className="mock-stat-val">48</div><div className="mock-stat-lbl">Toplam Müşteri</div></div>
+                  </div>
+                  <div className="mock-card">
+                    <div className="mock-card-head">📅 Bugünkü Program</div>
+                    {[["09:00","Ahmet Yılmaz","SRC / Ticari Taşıt","b-grn"],["10:30","Mehmet Kaya","Genel Ehliyet","b-grn"],["14:00","Fatma Demir","Stajyer İptali","b-amb"]].map(([time,name,type,badge])=>(
+                      <div key={name} className="mock-row">
+                        <span style={{fontFamily:"'Instrument Serif',serif",fontWeight:700,color:"var(--teal)"}}>{time}</span>
+                        <span style={{fontWeight:600,fontSize:11}}>{name}</span>
+                        <span style={{fontSize:10,color:"var(--txt3)"}}>{type}</span>
+                        <span className={`mock-badge ${badge}`}>{badge==="b-grn"?"✓":"Bekliyor"}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS BAND */}
+      <div className="stats-band">
+        {[["50+","Psikoteknik Merkez"],["10.000+","Yönetilen Randevu"],["98%","Memnuniyet Oranı"],["5 dk","Kurulum Süresi"]].map(([val,lbl])=>(
+          <div key={lbl}><div className="stat-band-val">{val}</div><div className="stat-band-lbl">{lbl}</div></div>
+        ))}
+      </div>
+
+      {/* TESTIMONIALS */}
+      <section className="section">
+        <div style={{maxWidth:1100,margin:"0 auto"}}>
+          <div style={{maxWidth:540}}>
+            <div className="section-chip">Referanslar</div>
+            <h2 className="section-title">Merkezler ne diyor?</h2>
+          </div>
+          <div className="testi-grid">
+            {[
+              ["Ahmet K.","Ankara Sürücü Merkezi","Yenileme takibi özelliği hayat kurtardı. Artık hiçbir müşteriyi kaçırmıyoruz."],
+              ["Selin Y.","İstanbul Psikoteknik","WhatsApp entegrasyonu inanılmaz pratik. Tek tık, mesaj gönderildi."],
+              ["Murat D.","İzmir Ehliyet Merkezi","Şirket portalı özelliği tam ihtiyacımızdı. Nakliyat filolarını ayrı takip ediyoruz."],
+            ].map(([author,role,quote])=>(
+              <div key={author} className="testi-card">
+                <div className="testi-stars">★★★★★</div>
+                <div className="testi-quote">"{quote}"</div>
+                <div className="testi-author">{author}</div>
+                <div className="testi-role">{role}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section className="section" style={{background:"var(--sur)"}}>
+        <div style={{maxWidth:1100,margin:"0 auto"}}>
+          <div style={{textAlign:"center",marginBottom:0}}>
+            <div className="section-chip">Fiyatlandırma</div>
+            <h2 className="section-title" style={{margin:"0 auto"}}>Büyüdükçe büyüyün</h2>
+          </div>
+          <div className="pricing-grid">
+            {[
+              {name:"Başlangıç",price:"Ücretsiz",period:"Sonsuza kadar",features:["1 merkez","Sınırsız müşteri","Randevu yönetimi","Temel yenileme takibi","WA mesajları"],btn:"Hemen Başla",outline:true},
+              {name:"Profesyonel",price:"₺799",period:"/ ay / merkez",features:["Her şey +","Çoklu şube desteği","Gelişmiş analiz","Excel raporları","Öncelikli destek","API erişimi"],btn:"Demo Dene",outline:false,featured:true},
+              {name:"Kurumsal",price:"Özel",period:"Büyük ağlar için",features:["Sınırsız merkez","Özel subdomain","SLA garantisi","Dedicated destek","Özel entegrasyon","Eğitim ve onboarding"],btn:"İletişime Geç",outline:true},
+            ].map(p=>(
+              <div key={p.name} className={`price-card ${p.featured?"featured":""}`}>
+                {p.featured&&<div className="price-chip">En Popüler</div>}
+                <div className="price-name">{p.name}</div>
+                <div className="price-val">{p.price}</div>
+                <div className="price-period">{p.period}</div>
+                <ul className="price-features">{p.features.map(f=><li key={f}>{f}</li>)}</ul>
+                <button className={`btn-price ${p.outline?"btn-price-outline":"btn-price-filled"}`} onClick={onGoToLogin}>{p.btn}</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section">
+        <div style={{maxWidth:1100,margin:"0 auto"}}>
+          <div style={{textAlign:"center"}}>
+            <div className="section-chip">Sıkça Sorulanlar</div>
+            <h2 className="section-title" style={{margin:"0 auto"}}>Aklınızdaki sorular</h2>
+          </div>
+          <div className="faq-list">
+            {faqs.map(([q,a],i)=>(
+              <div key={i} className="faq-item">
+                <div className="faq-q" onClick={()=>setFaq(faq===i?null:i)}>
+                  {q}<span className={`faq-ico ${faq===i?"open":""}`}>+</span>
+                </div>
+                {faq===i&&<div className="faq-a">{a}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA BAND */}
+      <div className="cta-band">
+        <h2 className="cta-band-title">Merkezinizi bugün dijitale taşıyın</h2>
+        <p className="cta-band-sub">Demo hesapla 5 dakikada kurulum. Kredi kartı yok.</p>
+        <button className="btn-cta-white" onClick={onGoToLogin}>Ücretsiz Başla →</button>
+      </div>
+
+      {/* FOOTER */}
+      <div className="footer">
+        <div className="footer-brand">PsikoMerkez</div>
+        <div className="footer-links">
+          <span className="footer-link">Gizlilik</span>
+          <span className="footer-link">Kullanım Şartları</span>
+          <span className="footer-link" onClick={onGoToLogin}>Giriş Yap</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// AUTH PAGE
+// ══════════════════════════════════════════════════
+function AuthPage({onLogin,onBack}){
+  const[email,setEmail]=useState("");
+  const[pw,setPw]=useState("");
+  const[err,setErr]=useState("");
+  const[loading,setLoading]=useState(false);
+
+  const go=async()=>{
+    if(!email||!pw){setErr("E-posta ve şifre zorunlu.");return;}
+    setLoading(true);setErr("");
+    try{
+      // SHA-256 hash hesapla
+      const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
+      const hash=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+      
+      // Önce sadece email ile ara (RLS / hash uyumsuzluğunu tespit için)
+      const{data:emailCheck,error:emailErr}=await sb.from("centers").select("id,username,status,password_hash").eq("username",email).maybeSingle();
+      
+      // Bağlantı hatası
+      if(emailErr && emailErr.code !== 'PGRST116'){
+        console.error("Supabase bağlantı hatası:",emailErr);
+        setErr("Sunucu bağlantı hatası: "+emailErr.message+" (kod: "+emailErr.code+")");
+        setPw("");setLoading(false);return;
+      }
+      
+      // Kullanıcı bulunamadı
+      if(!emailCheck){
+        setErr("Bu e-posta ile kayıtlı merkez bulunamadı.");
+        setPw("");setLoading(false);return;
+      }
+      
+      // Hesap pasif
+      if(emailCheck.status!=="active"){
+        setErr("Hesabınız aktif değil (durum: "+emailCheck.status+"). Yönetici ile iletişime geçin.");
+        setLoading(false);return;
+      }
+      
+      // Şifre kontrolü
+      if(emailCheck.password_hash!==hash){
+        // Debug: console'da hash'leri karşılaştır (prod'da kaldırılabilir)
+        console.log("Girilen şifre hash:",hash);
+        console.log("DB'deki hash:",emailCheck.password_hash);
+        setErr("Şifre hatalı. (Şifrenizi sıfırlamak için yönetici ile iletişime geçin)");
+        setPw("");setLoading(false);return;
+      }
+      
+      // Tam kayıt çek
+      const{data,error}=await sb.from("centers").select("*").eq("id",emailCheck.id).single();
+      if(error||!data){setErr("Hesap bilgileri alınamadı: "+(error?.message||"bilinmeyen hata"));setLoading(false);return;}
+      
+      const acc={tenantId:data.id,centerName:data.name,psychologist:data.psychologist||"",email:data.username};
+      LS.set("pm_session",acc);
+      onLogin(acc);
+    }catch(e){
+      console.error("Login hatası:",e);
+      setErr("Bağlantı hatası: "+e.message);
+    }
+    setLoading(false);
+  };
+
+  return(
+    <div className="auth-wrap">
+      <div className="auth-left">
+        <div className="auth-box">
+          <div className="auth-back" onClick={onBack}>← Ana Sayfaya Dön</div>
+          <div className="auth-logo">PsikoMerkez</div>
+          <div className="auth-tagline">Yönetim Paneline Giriş</div>
+          {err&&<div className="auth-err">❌ {err}</div>}
+          <div className="fg" style={{marginBottom:11}}>
+            <label className="fl">E-posta</label>
+            <input className="fi" type="email" placeholder="ornek@merkez.com" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} onKeyDown={e=>e.key==="Enter"&&go()}/>
+          </div>
+          <div className="fg" style={{marginBottom:16}}>
+            <label className="fl">Şifre</label>
+            <input className="fi" type="password" placeholder="••••••••" value={pw} onChange={e=>{setPw(e.target.value);setErr("");}} onKeyDown={e=>e.key==="Enter"&&go()} autoFocus/>
+          </div>
+          <button className="btn btn-p" style={{width:"100%",padding:11}} onClick={go} disabled={loading}>
+            {loading?"Kontrol ediliyor...":"Giriş Yap →"}
+          </button>
+        </div>
+      </div>
+      <div className="auth-right">
+        <div className="auth-right-bg"/>
+        <div style={{flex:1}}/>
+        <div className="auth-right-title">Merkezinizi dijitale taşıyın</div>
+        <div className="auth-right-sub">Psikoteknik belgesi yönetiminden randevu takibine, her şey tek panelde.</div>
+        {[["📅","Randevu Yönetimi","Program ve takvim görünümü"],["🔄","Yenileme Takibi","5 ay önceden otomatik uyarı"],["💬","WhatsApp Entegrasyonu","Tek tık mesaj gönderimi"]].map(f=>(
+          <div key={f[0]} className="auth-feat">
+            <div className="auth-feat-ico">{f[0]}</div>
+            <div><div className="auth-feat-title">{f[1]}</div><div className="auth-feat-desc">{f[2]}</div></div>
+          </div>
+        ))}
+        <div style={{marginTop:"auto",paddingTop:24}}/>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// PANEL APP
+// ══════════════════════════════════════════════════
+function PanelApp({session,onLogout}){
+  const tid=session.tenantId;
+  const[ready,setReady]=useState(false);
+  const[loadErr,setLoadErr]=useState(null);
+  const[page,setPage]=useState("dashboard");
+  const[clients,setClientsRaw]=useState([]);
+  const[appointments,setAppointmentsRaw]=useState([]);
+  const[companies,setCompaniesRaw]=useState([]);
+  const[cfg,setCfgRaw]=useState(DEFAULT_SETTINGS);
+  const[trash,setTrashRaw]=useState([]);
+  const{toasts,show:showToast}=useToast();
+
+  // İlk yükleme — Supabase'den çek
+  useEffect(()=>{
+    sbLoad(tid).then(d=>{
+      setClientsRaw(d.clients);
+      setAppointmentsRaw(d.appointments);
+      setCompaniesRaw(d.companies);
+      if(d.settings){
+        setCfgRaw({...DEFAULT_SETTINGS,...d.settings,testTypes:d.settings.testTypes||DEFAULT_SETTINGS.testTypes});
+      } else {
+        const initCfg={...DEFAULT_SETTINGS,centerName:session.centerName,psychologist:session.psychologist};
+        setCfgRaw(initCfg);
+        sbSaveSettings(initCfg,tid);
+      }
+      setTrashRaw(d.trash||[]);
+      setReady(true);
+    }).catch(e=>{
+      setLoadErr("Bağlantı hatası: "+e.message);
+      setReady(true);
+    });
+  },[]);
+
+  // Setter'lar — state güncelle + Supabase'e kaydet
+  const setClients=useCallback((fn)=>{
+    setClientsRaw(prev=>{
+      const next=typeof fn==="function"?fn(prev):fn;
+      // Silinen kayıtları bul ve Supabase'den sil
+      const prevIds=new Set(prev.map(c=>c.id));
+      const nextIds=new Set(next.map(c=>c.id));
+      prevIds.forEach(id=>{if(!nextIds.has(id))sbDeleteClient(id,tid);});
+      // Yeni veya güncellenen kayıtları kaydet
+      if(next.length>0)sbSaveClients(next,tid);
+      return next;
+    });
+  },[tid]);
+
+  const setAppointments=useCallback((fn)=>{
+    setAppointmentsRaw(prev=>{
+      const next=typeof fn==="function"?fn(prev):fn;
+      // Silinen randevuları bul
+      const prevIds=new Set(prev.map(a=>a.id));
+      const nextIds=new Set(next.map(a=>a.id));
+      prevIds.forEach(id=>{if(!nextIds.has(id))sbDeleteAppt(id,tid);});
+      if(next.length>0)sbSaveAppts(next,tid);
+      return next;
+    });
+  },[tid]);
+
+  const setCompanies=useCallback((fn)=>{
+    setCompaniesRaw(prev=>{
+      const next=typeof fn==="function"?fn(prev):fn;
+      const prevIds=new Set(prev.map(c=>c.id));
+      const nextIds=new Set(next.map(c=>c.id));
+      prevIds.forEach(id=>{if(!nextIds.has(id))sbDeleteCo(id,tid);});
+      if(next.length>0)sbSaveCos(next,tid);
+      else if(prev.length>0&&next.length===0)sb.from("companies").delete().eq("tenant_id",tid);
+      return next;
+    });
+  },[tid]);
+
+  const setCfg=useCallback((fn)=>{
+    setCfgRaw(prev=>{
+      const next=typeof fn==="function"?fn(prev):fn;
+      sbSaveSettings(next,tid);
+      return next;
+    });
+  },[tid]);
+
+  const setTrash=useCallback((fn)=>{
+    setTrashRaw(prev=>{
+      const next=typeof fn==="function"?fn(prev):fn;
+      // Silinen trash itemları
+      const prevIds=new Set(prev.map(c=>c.id));
+      const nextIds=new Set(next.map(c=>c.id));
+      prevIds.forEach(id=>{if(!nextIds.has(id))sbRestoreTrash(id,tid);});
+      // Boşaltma
+      if(next.length===0&&prev.length>0){sbClearTrash(tid);}
+      else if(next.length>0){sbSaveTrash(next,tid);}
+      return next;
+    });
+  },[tid]);
+
+  if(!ready)return(
+    <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--bg)"}}>
+      <div style={{textAlign:"center"}}>
+        <div style={{fontFamily:"'Instrument Serif',serif",fontSize:22,color:"var(--teal)",marginBottom:14}}>{session.centerName}</div>
+        <div style={{fontSize:13,color:"var(--txt2)",marginBottom:14}}>Veriler yükleniyor...</div>
+        <div style={{width:20,height:20,border:"2.5px solid var(--brd2)",borderTopColor:"var(--teal)",borderRadius:"50%",animation:"spin .8s linear infinite",margin:"0 auto"}}/>
+      </div>
+    </div>
+  );
+
+  if(loadErr)return(
+    <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--bg)"}}>
+      <div style={{textAlign:"center",maxWidth:400}}>
+        <div style={{fontSize:36,marginBottom:14}}>⚠️</div>
+        <div style={{fontFamily:"'Instrument Serif',serif",fontSize:20,marginBottom:10}}>Bağlantı Hatası</div>
+        <div style={{fontSize:13,color:"var(--txt2)",marginBottom:20}}>{loadErr}</div>
+        <button className="btn btn-p" onClick={()=>window.location.reload()}>Tekrar Dene</button>
+      </div>
+    </div>
+  );
+
+  const testTypes=cfg.testTypes||DEFAULT_SETTINGS.testTypes;
+  const expC=clients.filter(c=>c.status==="teste_girdi"&&c.renewalDate&&daysUntil(c.renewalDate)<0).length;
+  const urgC=clients.filter(c=>c.status==="teste_girdi"&&c.renewalDate&&daysUntil(c.renewalDate)>=0&&daysUntil(c.renewalDate)<=30).length;
+  const pendC=appointments.filter(a=>a.paymentStatus==="bekliyor").length;
+  const todayC=appointments.filter(a=>isToday(a.date)).length;
+  const tmrUnremC=appointments.filter(a=>isTomorrow(a.date)&&!a.reminded).length;
+  const msgC=tmrUnremC+expC+urgC;
+
+  const nav=[
+    {key:"dashboard",ico:"◉",label:"Genel Bakış"},
+    {key:"appointments",ico:"📅",label:"Randevular",badge:todayC},
+    {key:"clients",ico:"👥",label:"Müşteriler"},
+    {key:"renewals",ico:"🔄",label:"Yenileme Takibi",badge:expC+urgC,warn:true},
+    {key:"companies",ico:"🏢",label:"Şirketler"},
+    {key:"payments",ico:"💸",label:"Ödemeler",badge:pendC},
+    {key:"analytics",ico:"📊",label:"Analiz"},
+    {key:"messages",ico:"💬",label:"Mesajlar",badge:msgC,warn:true},
+    {key:"prospect",ico:"🎯",label:"Müşteri Bul"},
+    {key:"trash",ico:"🗑",label:"Çöp Kutusu",badge:trash.length},
+    {key:"settings",ico:"⚙️",label:"Ayarlar"},
+  ];
+  const titles={dashboard:"Genel Bakış",appointments:"Randevular",clients:"Müşteriler",renewals:"Yenileme Takibi",companies:"Şirketler",payments:"Ödemeler",analytics:"Analiz",messages:"Mesajlar",trash:"Çöp Kutusu",settings:"Ayarlar"};
+  const sh={clients,setClients,appointments,setAppointments,companies,setCompanies,testTypes,cfg,showToast};
+
+  return(
+    <div className="app">
+      <div className="sb">
+        <div className="sb-logo">
+          <div className="sb-brand">{cfg.centerName}</div>
+          <div className="sb-tag">{cfg.psychologist}</div>
+        </div>
+        <nav className="sb-nav">
+          {nav.map(item=>(
+            <div key={item.key} className={`ni ${page===item.key?"on":""}`} onClick={()=>setPage(item.key)}>
+              <span className="ni-ico">{item.ico}</span>{item.label}
+              {item.badge>0&&<span className={`ni-badge ${item.warn?"warn":""}`}>{item.badge}</span>}
+            </div>
+          ))}
+        </nav>
+        <div className="sb-foot">
+          <div style={{fontWeight:700,marginBottom:1}}>PsikoMerkez</div>
+          <div style={{fontSize:10,color:"var(--txt3)"}}>{session.tenantId}</div>
+          <div>{new Date().toLocaleDateString("tr-TR")}</div>
+          <div className="sb-logout" onClick={onLogout}>🚪 Çıkış Yap</div>
+        </div>
+      </div>
+      <div className="main">
+        <div className="topbar">
+          <div className="page-ttl">{titles[page]}</div>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <div style={{fontSize:11,color:"var(--txt3)"}}>{cfg.address.slice(0,40)}{cfg.address.length>40?"…":""}</div>
+            <div style={{fontSize:12,color:"var(--txt2)",fontWeight:600}}>{new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})}</div>
+          </div>
+        </div>
+        {page==="dashboard"&&<Dashboard {...sh} setPage={setPage}/>}
+        {page==="appointments"&&<AppointmentsPage {...sh}/>}
+        {page==="clients"&&<ClientsPage {...sh} setTrash={setTrash} setCompanies={setCompanies}/>}
+        {page==="renewals"&&<RenewalsPage clients={clients} testTypes={testTypes} cfg={cfg} showToast={showToast}/>}
+        {page==="companies"&&<CompaniesPage {...sh}/>}
+        {page==="payments"&&<PaymentsPage {...sh}/>}
+        {page==="analytics"&&<AnalyticsPage clients={clients} appointments={appointments} companies={companies} testTypes={testTypes} cfg={cfg}/>}
+        {page==="messages"&&<MessagesPage appointments={appointments} setAppointments={setAppointments} clients={clients} testTypes={testTypes} cfg={cfg} showToast={showToast}/>}
+        {page==="trash"&&<TrashPage trash={trash} setTrash={setTrash} setClients={setClients} showToast={showToast}/>}
+        {page==="prospect"&&<ProspectPage cfg={cfg} showToast={showToast}/>}
+        {page==="settings"&&<SettingsPage cfg={cfg} setCfg={setCfg} showToast={showToast}/>}
+      </div>
+      <Toasts toasts={toasts}/>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// ROOT ROUTER
+// ══════════════════════════════════════════════════
+function App(){
+  const[route,setRoute]=useState(()=>{
+    const s=LS.get("pm_session");
+    return s?"panel":"landing";
+  });
+  const[session,setSession]=useState(()=>LS.get("pm_session"));
+
+  const handleLogin=(acc)=>{
+    const s={tenantId:acc.tenantId,centerName:acc.centerName,psychologist:acc.psychologist};
+    LS.set("pm_session",s);setSession(s);setRoute("panel");
+  };
+  const handleLogout=()=>{LS.del("pm_session");setSession(null);setRoute("landing");};
+
+  if(route==="landing")return<LandingPage onGoToLogin={()=>setRoute("auth")}/>;
+  if(route==="auth")return<AuthPage onLogin={handleLogin} onBack={()=>setRoute("landing")}/>;
+  if(route==="panel"&&session)return<PanelApp session={session} onLogout={handleLogout}/>;
+  return<LandingPage onGoToLogin={()=>setRoute("auth")}/>;
+}
+
+// ── CSS variable helper for JSX ──
+const var_sur="var(--sur)";
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
